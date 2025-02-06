@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://bimfhyuq517dx"]
+
+[ext_resource type="Shader" uid="uid://8n0jqcplhw1v" path="res://graphics/materials/shaders/psx_albedo.gdshader" id="1_pybca"]
+[ext_resource type="Texture2D" uid="uid://cdltg0pabq0i0" path="res://graphics/textures/Metal_01-128x128.png" id="2_mi8v4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ylpw"]
+size = Vector3(2, 0.25, 2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pybca"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mi8v4"]
+render_priority = 0
+shader = ExtResource("1_pybca")
+shader_parameter/albedo_tex = ExtResource("2_mi8v4")
+
+[node name="ground" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.125, 0)
+shape = SubResource("BoxShape3D_7ylpw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_pybca")
+surface_material_override/0 = SubResource("ShaderMaterial_mi8v4")

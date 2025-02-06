@@ -1,0 +1,71 @@
+[gd_scene load_steps=18 format=3 uid="uid://blghx6h3twpr6"]
+
+[ext_resource type="PackedScene" uid="uid://h2rf1sjsvrov" path="res://graphics/tiles/dirt1.tscn" id="1_miche"]
+[ext_resource type="PackedScene" uid="uid://doxyqiplwtf0" path="res://graphics/tiles/brick1.tscn" id="1_xoe4a"]
+[ext_resource type="PackedScene" uid="uid://hfcachjrhnmg" path="res://graphics/tiles/dirt2.tscn" id="2_nlp6t"]
+[ext_resource type="PackedScene" uid="uid://bxf1slflq4b5v" path="res://graphics/tiles/brickfloor1.tscn" id="2_oj4pq"]
+[ext_resource type="PackedScene" uid="uid://bcnqiyq0guqa1" path="res://graphics/tiles/brickfloor3.tscn" id="3_ltlai"]
+[ext_resource type="PackedScene" uid="uid://dob1oinlt1sye" path="res://graphics/tiles/dirt3.tscn" id="3_q3j7q"]
+[ext_resource type="PackedScene" uid="uid://ccijs88oqfqco" path="res://graphics/tiles/brickfloor5.tscn" id="4_e2t0j"]
+[ext_resource type="PackedScene" uid="uid://bs8wufirj0rep" path="res://graphics/tiles/dirt4.tscn" id="4_ssh64"]
+[ext_resource type="PackedScene" uid="uid://cble7b7jke75l" path="res://graphics/tiles/metal1.tscn" id="6_xoe4a"]
+[ext_resource type="PackedScene" uid="uid://b2mr6moyyvkiw" path="res://graphics/tiles/metal2.tscn" id="7_oj4pq"]
+[ext_resource type="PackedScene" uid="uid://kpdc2k588g1p" path="res://graphics/tiles/metal3.tscn" id="8_ltlai"]
+[ext_resource type="PackedScene" uid="uid://bwvh74r6oix6r" path="res://graphics/tiles/metal4.tscn" id="9_e2t0j"]
+[ext_resource type="PackedScene" uid="uid://bmpdia0hjy3ya" path="res://graphics/tiles/metalwall5.tscn" id="10_o3gld"]
+[ext_resource type="PackedScene" uid="uid://byvmkxrppge43" path="res://graphics/tiles/plasterwall1.tscn" id="11_ss8l4"]
+[ext_resource type="PackedScene" uid="uid://de0dvlwrpx1lr" path="res://graphics/tiles/woodwall5.tscn" id="12_bwbor"]
+[ext_resource type="PackedScene" uid="uid://7j0mr7umlmt2" path="res://graphics/tiles/metal5.tscn" id="13_o3gld"]
+[ext_resource type="PackedScene" uid="uid://c4ldery7cby1m" path="res://graphics/tiles/tile3.tscn" id="16_ss8l4"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="brick1" parent="." instance=ExtResource("1_xoe4a")]
+
+[node name="brickfloor1" parent="." instance=ExtResource("2_oj4pq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="brickfloor3" parent="." instance=ExtResource("3_ltlai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="brickfloor5" parent="." instance=ExtResource("4_e2t0j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="dirt1" parent="." instance=ExtResource("1_miche")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="dirt2" parent="." instance=ExtResource("2_nlp6t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="dirt3" parent="." instance=ExtResource("3_q3j7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="dirt4" parent="." instance=ExtResource("4_ssh64")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="metal1" parent="." instance=ExtResource("6_xoe4a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="metal2" parent="." instance=ExtResource("7_oj4pq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="metal3" parent="." instance=ExtResource("8_ltlai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="metal4" parent="." instance=ExtResource("9_e2t0j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="metal5" parent="." instance=ExtResource("13_o3gld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="metalwall5" parent="." instance=ExtResource("10_o3gld")]
+transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="plasterwall1" parent="." instance=ExtResource("11_ss8l4")]
+transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="tile3" parent="." instance=ExtResource("16_ss8l4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="woodwall5" parent="." instance=ExtResource("12_bwbor")]
+transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, 0, -2, 0)

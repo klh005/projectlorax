@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://b7gkdpf8qysx7"]
+
+[ext_resource type="Script" uid="uid://djaxg5v218q54" path="res://maze.gd" id="1_ol5qi"]
+[ext_resource type="MeshLibrary" uid="uid://bp3xw2gsk641f" path="res://graphics/meshes/meshlibs/blocktileset1.tres" id="2_vqf1n"]
+[ext_resource type="Texture2D" uid="uid://cdltg0pabq0i0" path="res://graphics/textures/Metal_01-128x128.png" id="3_8hln8"]
+[ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="4_crgmj"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ykl68"]
+size = Vector2(10, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i67be"]
+albedo_texture = ExtResource("3_8hln8")
+metallic = 0.51
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vqf1n"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="Environment" id="Environment_vqf1n"]
+ambient_light_color = Color(0.899258, 0.899258, 0.899258, 1)
+tonemap_mode = 3
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.730747, 0.756489, 0.796938, 1)
+fog_density = 0.8
+fog_depth_curve = 0.554783
+fog_depth_begin = 2.0
+fog_depth_end = 9.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_8hln8"]
+
+[sub_resource type="Compositor" id="Compositor_crgmj"]
+
+[node name="Maze" type="Node3D" node_paths=PackedStringArray("gridmap")]
+script = ExtResource("1_ol5qi")
+gridmap = NodePath("mazegrid")
+
+[node name="mazegrid" type="GridMap" parent="."]
+mesh_library = ExtResource("2_vqf1n")
+cell_scale = 2.0
+data = {
+"cells": PackedInt32Array(65505, 4, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+mesh = SubResource("PlaneMesh_ykl68")
+surface_material_override/0 = SubResource("StandardMaterial3D_i67be")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_vqf1n")
+
+[node name="Player" parent="." instance=ExtResource("4_crgmj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.376, 26.0878, 55.8311)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vqf1n")
+camera_attributes = SubResource("CameraAttributesPractical_8hln8")
+compositor = SubResource("Compositor_crgmj")

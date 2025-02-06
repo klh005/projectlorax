@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhi1yrgrl86nl"]
+
+[ext_resource type="Texture2D" uid="uid://buhkbdqdva2o" path="res://graphics/textures/Tile_05-128x128.png" id="1_c5hi6"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e00m8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iuw78"]
+albedo_texture = ExtResource("1_c5hi6")
+uv1_scale = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ktk7"]
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_e00m8")
+surface_material_override/0 = SubResource("StandardMaterial3D_iuw78")
+
+[node name="wall" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wall"]
+shape = SubResource("BoxShape3D_2ktk7")

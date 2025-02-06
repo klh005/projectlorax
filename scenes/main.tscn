@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://lye81ja0v1j0"]
+
+[ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="1_jyhfs"]
+[ext_resource type="MeshLibrary" uid="uid://baniym85rlp12" path="res://graphics/meshes/meshlibs/tileset1.tres" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="3_sugp2"]
+
+[sub_resource type="Environment" id="Environment_sugp2"]
+ambient_light_color = Color(0.899258, 0.899258, 0.899258, 1)
+tonemap_mode = 3
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.730747, 0.756489, 0.796938, 1)
+fog_density = 0.8
+fog_depth_curve = 0.554783
+fog_depth_begin = 2.0
+fog_depth_end = 9.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_jyhfs"]
+
+[sub_resource type="Compositor" id="Compositor_tbgi4"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_jyhfs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.311965, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player"]
+transform = Transform3D(0.866012, -0.357534, 0.349562, 0.00488212, 0.705102, 0.709089, -0.5, -0.612372, 0.612372, 2, 6.68804, 2)
+light_energy = 1.2
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.0
+directional_shadow_fade_start = 0.7
+directional_shadow_max_distance = 30.0
+directional_shadow_pancake_size = 10.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sugp2")
+camera_attributes = SubResource("CameraAttributesPractical_jyhfs")
+compositor = SubResource("Compositor_tbgi4")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("2_0wfyh")
+cell_size = Vector3(1, 1, 1)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(65535, 65535, 1, 65535, 0, 1, 0, 65535, 1, 0, 0, 1, 1, 0, 1, 1, 65535, 1, 1, 65534, 1, 0, 65534, 1, 65535, 65534, 1, 65534, 0, 0, 131070, 0, 0, 65534, 65535, 0, 65534, 65534, 0, 65534, 65533, 0, 65534, 65532, 0, 131070, 65535, 0, 131070, 65533, 0, 131070, 65534, 0, 131070, 65532, 0, 131070, 65531, 0, 131070, 65530, 0, 131070, 65529, 0, 65534, 65531, 0, 65534, 65530, 0, 65534, 65529, 0, 1, 65533, 1, 1, 65532, 1, 0, 65532, 1, 0, 65531, 1, 0, 65530, 1, 65535, 65530, 1, 65535, 65529, 1, 0, 65529, 1, 1, 65529, 1, 1, 65530, 1, 1, 65531, 1, 0, 65533, 1, 65535, 65533, 1, 65535, 65532, 1, 65535, 65531, 1, 2, 0, 2, 2, 65535, 2, 3, 65535, 2, 3, 65534, 2, 3, 65533, 2, 3, 65532, 2, 4, 65532, 2, 4, 65531, 2, 2, 65534, 2, 2, 65533, 2, 2, 65532, 2, 3, 65531, 2, 3, 65530, 2, 2, 65530, 2, 2, 65529, 2, 2, 65531, 2, 3, 65529, 2, 4, 65529, 2, 4, 65530, 2, 4, 65533, 2, 4, 65535, 2, 4, 65534, 2, 4, 0, 2, 3, 0, 2, 2, 65522, 2, 2, 65523, 2, 2, 65524, 2, 2, 65525, 2, 2, 65526, 2, 2, 65527, 2, 2, 65528, 2, 3, 65522, 2, 3, 65523, 2, 3, 65524, 2, 3, 65525, 2, 3, 65526, 2, 3, 65527, 2, 3, 65528, 2, 4, 65522, 2, 4, 65523, 2, 4, 65524, 2, 4, 65525, 2, 4, 65526, 2, 4, 65527, 2, 4, 65528, 2, 65535, 65523, 1, 65535, 65524, 1, 65535, 65525, 1, 65535, 65526, 1, 65535, 65527, 1, 65535, 65528, 1, 0, 65523, 1, 0, 65524, 1, 0, 65525, 1, 0, 65526, 1, 0, 65527, 1, 0, 65528, 1, 1, 65523, 1, 1, 65524, 1, 1, 65525, 1, 1, 65526, 1, 1, 65527, 1, 1, 65528, 1, 65534, 65522, 0, 65534, 65523, 0, 65534, 65524, 0, 65534, 65525, 0, 65534, 65526, 0, 65534, 65527, 0, 65534, 65528, 0, 131070, 65523, 0, 131070, 65524, 0, 131070, 65525, 0, 131070, 65526, 0, 131070, 65527, 0, 131070, 65528, 0, 65535, 65522, 0, 0, 65522, 0, 1, 65522, 0, 196606, 65523, 0, 196606, 65524, 0, 196606, 65525, 0, 196606, 65526, 0, 196606, 65527, 0, 196606, 65528, 0, 196606, 65529, 0, 196606, 65530, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 2, 0)
+
+[node name="Robot1" parent="." instance=ExtResource("3_sugp2")]
+transform = Transform3D(-0.999306, 0, 0.0372542, 0, 1, 0, -0.0372542, 0, -0.999306, 0.41052, 0.41598, -6.17007)

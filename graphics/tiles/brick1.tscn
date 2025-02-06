@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://doxyqiplwtf0"]
+
+[ext_resource type="Texture2D" uid="uid://b62tu6f41rdm7" path="res://graphics/textures/Brick_01-128x128.png" id="1_lr33q"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e00m8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iuw78"]
+albedo_texture = ExtResource("1_lr33q")
+uv1_scale = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ktk7"]
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_e00m8")
+surface_material_override/0 = SubResource("StandardMaterial3D_iuw78")
+
+[node name="wall" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wall"]
+shape = SubResource("BoxShape3D_2ktk7")
