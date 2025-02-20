@@ -83,10 +83,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -99.0
-offset_top = -30.0
-offset_right = 94.0
-offset_bottom = -7.0
+offset_left = -96.5
+offset_top = -11.5
+offset_right = 96.5
+offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -96,16 +96,22 @@ vertical_alignment = 1
 
 [node name="Background" type="TextureRect" parent="NoteUI"]
 layout_mode = 0
-offset_left = -182.0
-offset_top = 37.0
-offset_bottom = 219.0
+offset_left = -45.0
+offset_top = 16.0
+offset_right = -5.0
+offset_bottom = 56.0
 scale = Vector2(2, 2)
 texture = ExtResource("7_o6xl0")
 expand_mode = 3
 
+[node name="Button" type="Button" parent="NoteUI"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
 [node name="RichTextLabel" type="RichTextLabel" parent="NoteUI"]
 layout_mode = 0
-offset_left = -92.0
-offset_top = 107.0
-offset_right = -13.0
-offset_bottom = 187.0
+offset_left = -44.0
+offset_top = 16.0
+offset_right = 35.0
+offset_bottom = 96.0

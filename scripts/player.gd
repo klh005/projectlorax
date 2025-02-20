@@ -1,5 +1,11 @@
 extends CharacterBody3D
 
+@onready var raycast = $RayCast3D
+@onready var interaction_label = $"../NoteUI/InteractionLabel"
+@onready var note_ui = $"../NoteUI"  # Make sure the path is correct
+var current_note = null  # Stores the note the player is looking at
+var current_object = null
+
 # Movement parameters
 @export var move_speed := 7.0
 @export var run_multiplier := 1.8
@@ -46,6 +52,19 @@ func _input(event):
 		
 		# Apply vertical rotation to camera
 		head.rotation_degrees.x = camera_x_rotation
+		
+	# Open and close note UI
+	if event is InputEventKey and event.pressed and event.keycode == KEY_E:
+		print("Pressed E!")
+		if current_note:
+			print("current note exists")
+			if current_note.is_open:
+				print("Closing note...")
+				current_note.close_note()
+				current_note = null
+			else:
+				print("Opening note...")
+				current_note.open_note()
 
 func _physics_process(delta):
 	handle_movement(delta)
@@ -94,3 +113,13 @@ func apply_head_bob(delta):
 		camera_height + head_bob_offset.y,  # Maintain fixed camera height
 		camera_forward_offset  # Use exported displacement value
 	)
+
+func _process(delta):
+	if raycast.is_colliding():
+		var hit_object = raycast.get_collider()
+		if hit_object is Area3D and hit_object.has_method("on_looked_at") and !hit_object.is_open:
+			hit_object.on_looked_at()
+			current_note = hit_object
+			return
+	interaction_label.visible = false
+	current_object = null
