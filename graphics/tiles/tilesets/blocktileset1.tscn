@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bq45cvpnijige"]
+[gd_scene load_steps=8 format=3 uid="uid://bq45cvpnijige"]
 
 [ext_resource type="PackedScene" uid="uid://doxyqiplwtf0" path="res://graphics/tiles/brick1.tscn" id="1_nwvqm"]
 [ext_resource type="PackedScene" uid="uid://cbnnf37qibum4" path="res://graphics/tiles/brick3.tscn" id="2_tpjx0"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://gvisw4enqe8w" path="res://graphics/tiles/tileblock2.tscn" id="4_x1den"]
 [ext_resource type="PackedScene" uid="uid://b2spoetg24xnb" path="res://graphics/tiles/tileblock3.tscn" id="5_jvw3b"]
 [ext_resource type="PackedScene" uid="uid://bhi1yrgrl86nl" path="res://graphics/tiles/tileblock5.tscn" id="6_l6ylv"]
+[ext_resource type="PackedScene" uid="uid://cys40jig5r30s" path="res://graphics/tiles/newblock1.tscn" id="7_tpjx0"]
 
 [node name="blocktileset1" type="Node3D"]
 
@@ -20,3 +21,5 @@
 [node name="tileblock3" parent="." instance=ExtResource("5_jvw3b")]
 
 [node name="tileblock5" parent="." instance=ExtResource("6_l6ylv")]
+
+[node name="MeshInstance3D" parent="." instance=ExtResource("7_tpjx0")]

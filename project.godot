@@ -15,6 +15,10 @@ run/main_scene="uid://lye81ja0v1j0"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameState="*res://scripts/gamestate.gd"
+
 [dotnet]
 
 project/assembly_name="ProjLorax"

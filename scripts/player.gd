@@ -28,7 +28,9 @@ var current_object = null
 @export var head_bob_speed := 10.0
 
 # Camera reference
-@onready var head := $Camera3D
+@onready var head := %PlayerCam
+
+signal made_sound(player_position: Vector3)
 
 var current_speed := move_speed
 var fall_velocity := 0.0
@@ -69,6 +71,9 @@ func _input(event):
 func _physics_process(delta):
 	handle_movement(delta)
 	apply_head_bob(delta)
+	
+	if is_on_floor() and is_making_sound():
+		emit_signal("made_sound", global_position)
 
 func handle_movement(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -123,3 +128,9 @@ func _process(delta):
 			return
 	interaction_label.visible = false
 	current_object = null
+	
+func is_making_sound() -> bool:
+	# Check if the player's horizontal velocity is above a threshold.
+	# This considers movement noise (e.g., footsteps) when the player is moving.
+	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
+	return horizontal_speed > 0.1

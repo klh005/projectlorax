@@ -47,7 +47,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_tuyoq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.865668, -0.192955)
 shape = SubResource("CapsuleShape3D_onrkg")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="PlayerCam" type="Camera3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+current = true
 near = 0.1
 far = 100.0
