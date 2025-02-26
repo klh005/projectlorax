@@ -20,6 +20,9 @@ func _ready():
 	for note in get_tree().get_nodes_in_group("notes"):
 		note.note_opened.connect(note_ui.show_note)  # Connect open signal
 		note.note_closed.connect(note_ui.hide_note)  # Connect close signal
+	
+	print("Node Hierarchy:")
+	print_node_hierarchy(self)
 
 func create_jumpscare_effect(enemy):
 	if is_jumpscare_active:
@@ -117,3 +120,9 @@ func _input(event):
 			pause_menu.show()
 			get_tree().paused = true
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func print_node_hierarchy(node: Node, indent: String = "") -> void:
+	print(indent + node.name + " (Type: " + node.get_class() + ")")
+	for child in node.get_children():
+		# Increase indentation for each level of depth
+		print_node_hierarchy(child, indent + "  ")
