@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfyrfujnigp5i"]
+
+[ext_resource type="Script" path="res://scripts/jumpscarescreen.gd" id="1_qq02f"]
+[ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="2_xao21"]
+
+[sub_resource type="Environment" id="Environment_5c2e7"]
+background_mode = 1
+ambient_light_color = Color(0.907942, 0.907942, 0.907942, 1)
+
+[node name="Jumpscarescreen" type="Node3D"]
+script = ExtResource("1_qq02f")
+
+[node name="Camera" type="Camera3D" parent="."]
+
+[node name="EnemyContainer" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1.5, -1)
+
+[node name="Robot1" parent="EnemyContainer" instance=ExtResource("2_xao21")]
+transform = Transform3D(0.999908, 0.0135433, 0, -0.0135433, 0.999908, 0, 0, 0, 1, 0, 0, 0)
+script = null
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="EnemyContainer"]
+transform = Transform3D(-0.980213, 0.197948, -8.3963e-08, 0.197948, 0.980213, 3.46104e-08, 8.91527e-08, 1.73052e-08, -1, -0.087, 2, -1.285)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5c2e7")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true

@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://obxlkaap3bkd"]
+
+[ext_resource type="Script" uid="uid://chc6wuxldeiut" path="res://scripts/mainmenu.gd" id="1_5mbse"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_natt5"]
+font_size = 64
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5mbse")
+
+[node name="Panel" type="Panel" parent="."]
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 1150.0
+offset_bottom = 270.0
+text = "Project Lorax"
+label_settings = SubResource("LabelSettings_natt5")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="PlayButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 523.0
+offset_top = 332.0
+offset_right = 636.0
+offset_bottom = 404.0
+text = "Start"
+
+[node name="QuitButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 535.0
+offset_top = 419.0
+offset_right = 622.0
+offset_bottom = 477.0
+text = "Quit"
+
+[connection signal="pressed" from="Panel/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Panel/QuitButton" to="." method="_on_quit_button_pressed"]

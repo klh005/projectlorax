@@ -3,6 +3,9 @@ extends CharacterBody3D
 @onready var interaction_label = $"../NoteUI/InteractionLabel"
 @onready var comp_interaction_label = $"../CompUI/InteractionLabel"
 @onready var note_ui = $"../NoteUI"  # Make sure the path is correct
+@onready var raycast = $RayCast3D
+@onready var interaction_label = $"../UI/NoteUI/InteractionLabel"
+@onready var note_ui = $"../UI/NoteUI"  # Make sure the path is correct
 var current_note = null  # Stores the note the player is looking at
 var looking_note = false
 var looking_comp = false
@@ -33,6 +36,9 @@ var comp_status = null
 @onready var head := $Camera3D
 @onready var raycast = $Camera3D2/RayCast3D
 
+@onready var head := %PlayerCam
+
+signal made_sound(player_position: Vector3)
 
 var current_speed := move_speed
 var fall_velocity := 0.0
@@ -83,6 +89,9 @@ func _input(event):
 func _physics_process(delta):
 	handle_movement(delta)
 	apply_head_bob(delta)
+	
+	if is_on_floor() and is_making_sound():
+		emit_signal("made_sound", global_position)
 
 func handle_movement(delta):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -150,3 +159,36 @@ func _process(delta):
 	interaction_label.visible = false
 	#looking_note = false
 	#looking_comp = false
+	current_object = null
+	
+@export var sound_threshold: float = 2.0  # Minimum speed to make sound
+@export var running_sound_multiplier: float = 2.0  # Increase sound when running
+
+# Existing is_making_sound() function - replace with this improved version
+func is_making_sound() -> bool:
+	# Calculate horizontal velocity (ignoring vertical/falling movement)
+	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
+	
+	# Check if the player is running
+	var is_running = Input.is_action_pressed("run")
+	
+	# Make more noise when running
+	var effective_speed = horizontal_speed
+	if is_running:
+		effective_speed *= running_sound_multiplier
+	
+	# Only emit sound if above threshold
+	var making_sound = effective_speed > sound_threshold
+	
+	# Optionally emit the signal with current position (if you want to keep this behavior)
+	if making_sound:
+		emit_signal("made_sound", global_position)
+		
+	return making_sound
+
+# Add this function to allow manual sound emission (for testing or other triggers)
+func make_noise(multiplier: float = 1.0) -> void:
+	emit_signal("made_sound", global_position)
+	
+	# You could visualize this with a debug sphere or message
+	print("Player made deliberate noise!")

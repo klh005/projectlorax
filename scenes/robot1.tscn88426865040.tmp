@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://c8h7tnwl6tbjo"]
+[gd_scene load_steps=6 format=4 uid="uid://c8h7tnwl6tbjo"]
 
 [ext_resource type="Script" uid="uid://cik4u7whpj1ta" path="res://scripts/enemyai.gd" id="1_1rsor"]
 [ext_resource type="Shader" uid="uid://bfx3qx8dry52x" path="res://graphics/materials/shaders/vertex_snap.gdshader" id="1_y81mm"]
@@ -30,13 +30,11 @@ blend_shape_mode = 0
 radius = 0.297701
 height = 1.72549
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_1rsor"]
-
 [node name="Robot1" type="CharacterBody3D"]
 script = ExtResource("1_1rsor")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_1rsor")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -44,6 +42,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.865668, -0.192955)
 shape = SubResource("CapsuleShape3D_onrkg")
 
 [node name="SoundDetector" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SoundDetector"]
-shape = SubResource("SphereShape3D_1rsor")

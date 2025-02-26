@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwsq0bw0w03ek"]
+
+[ext_resource type="Script" uid="uid://cbyx7vr35cglx" path="res://scripts/gameover.gd" id="1_ncp31"]
+
+[sub_resource type="SystemFont" id="SystemFont_dy3ie"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2mkfd"]
+font = SubResource("SystemFont_dy3ie")
+font_size = 48
+font_color = Color(0.576471, 0.152941, 0.0705882, 1)
+outline_size = 5
+outline_color = Color(0.233584, 0.0259233, 0.0853294, 1)
+
+[node name="Gameover" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ncp31")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 1154.0
+offset_bottom = 647.0
+text = "YOU DIED"
+label_settings = SubResource("LabelSettings_2mkfd")
+horizontal_alignment = 1
+vertical_alignment = 1

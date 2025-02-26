@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://b7gkdpf8qysx7"]
 
-[ext_resource type="Script" uid="uid://djaxg5v218q54" path="res://maze.gd" id="1_ol5qi"]
+[ext_resource type="Script" uid="uid://djaxg5v218q54" path="res://scripts/maze.gd" id="1_ol5qi"]
 [ext_resource type="MeshLibrary" uid="uid://bp3xw2gsk641f" path="res://graphics/meshes/meshlibs/blocktileset1.tres" id="2_vqf1n"]
 [ext_resource type="Texture2D" uid="uid://cdltg0pabq0i0" path="res://graphics/textures/Metal_01-128x128.png" id="3_8hln8"]
 [ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="4_crgmj"]
