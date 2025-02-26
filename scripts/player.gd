@@ -1,10 +1,12 @@
 extends CharacterBody3D
 
-@onready var raycast = $RayCast3D
 @onready var interaction_label = $"../NoteUI/InteractionLabel"
+@onready var comp_interaction_label = $"../CompUI/InteractionLabel"
 @onready var note_ui = $"../NoteUI"  # Make sure the path is correct
 var current_note = null  # Stores the note the player is looking at
-var current_object = null
+var looking_note = false
+var looking_comp = false
+var comp_status = null
 
 # Movement parameters
 @export var move_speed := 7.0
@@ -29,6 +31,8 @@ var current_object = null
 
 # Camera reference
 @onready var head := $Camera3D
+@onready var raycast = $Camera3D2/RayCast3D
+
 
 var current_speed := move_speed
 var fall_velocity := 0.0
@@ -59,12 +63,22 @@ func _input(event):
 		if current_note:
 			print("current note exists")
 			if current_note.is_open:
-				print("Closing note...")
+				#print("Closing note...")
 				current_note.close_note()
 				current_note = null
 			else:
-				print("Opening note...")
+				#print("Opening note...")
 				current_note.open_note()
+		elif comp_status:
+			print("Comp detected")
+			if comp_status.is_open:
+				#print("Closing computer...")
+				comp_status.close_comp()
+				comp_status = null
+			else:
+				#print("Opening computer...")
+				comp_status.open_comp()
+		
 
 func _physics_process(delta):
 	handle_movement(delta)
@@ -115,11 +129,24 @@ func apply_head_bob(delta):
 	)
 
 func _process(delta):
+	# Ensure RayCast3D always follows the camera's direction
+	raycast.global_transform = head.global_transform
+	
 	if raycast.is_colliding():
 		var hit_object = raycast.get_collider()
+		#print("Raycast is colliding with:", hit_object.name)
 		if hit_object is Area3D and hit_object.has_method("on_looked_at") and !hit_object.is_open:
 			hit_object.on_looked_at()
 			current_note = hit_object
+			looking_note = true
 			return
+		if hit_object is Area3D and hit_object.has_method("look_comp") and !hit_object.is_open:
+			hit_object.look_comp()
+			comp_status = hit_object
+			looking_comp = true
+			return
+			
+	comp_interaction_label.visible = false
 	interaction_label.visible = false
-	current_object = null
+	#looking_note = false
+	#looking_comp = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://lye81ja0v1j0"]
+[gd_scene load_steps=14 format=3 uid="uid://lye81ja0v1j0"]
 
 [ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://rjo4kww0gn7l" path="res://scripts/main.gd" id="1_tefeu"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://drlvp7yt8vgru" path="res://scenes/note.tscn" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://cxttc67m7otwu" path="res://scripts/note_ui.gd" id="6_tefeu"]
 [ext_resource type="Texture2D" uid="uid://buvmmxrqb6e1t" path="res://graphics/textures/Metal_02-128x128.png" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://c2a1hpvhaeiww" path="res://scenes/computer.tscn" id="8_tipki"]
+[ext_resource type="Texture2D" uid="uid://cayv53ijal7f4" path="res://graphics/textures/Plaster_01-128x128.png" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://c2buulkj0dj4j" path="res://scripts/comp_ui.gd" id="9_choun"]
 
 [sub_resource type="Environment" id="Environment_sugp2"]
 ambient_light_color = Color(0.899258, 0.899258, 0.899258, 1)
@@ -38,8 +41,11 @@ directional_shadow_fade_start = 0.7
 directional_shadow_max_distance = 30.0
 directional_shadow_pancake_size = 10.0
 
-[node name="RayCast3D" type="RayCast3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1924, 0)
+[node name="Camera3D2" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60338, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00148916, -0.416489, 0.0032084)
 target_position = Vector3(0, 0, -3)
 collision_mask = 2
 collide_with_areas = true
@@ -62,7 +68,7 @@ metadata/_editor_floor_ = Vector3(0, 9, 0)
 transform = Transform3D(-0.999306, 0, 0.0372542, 0, 1, 0, -0.0372542, 0, -0.999306, 0.41052, 0.41598, -6.17007)
 
 [node name="note" parent="." groups=["notes"] instance=ExtResource("4_jyhfs")]
-transform = Transform3D(0.5, -4.37114e-08, 4.37114e-08, 5.47617e-08, 0.47723, -0.149171, -2.86798e-08, 0.149171, 0.47723, 3.1941, 0.947814, -3.67728)
+transform = Transform3D(-0.000335331, 0.00128591, 0.499999, -0.00155936, 0.499996, -0.00128696, -0.499997, -0.00156022, -0.000331318, -4.98351, 8.02773, -32.2293)
 
 [node name="NoteUI" type="Control" parent="."]
 layout_mode = 3
@@ -90,22 +96,72 @@ offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Press E to open the note."
+text = "Press E to Interact."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Background" type="TextureRect" parent="NoteUI"]
 layout_mode = 0
-offset_left = -182.0
-offset_top = 37.0
-offset_bottom = 219.0
+offset_left = -128.0
+offset_top = -125.0
+offset_right = 2.0
+offset_bottom = 5.0
 scale = Vector2(2, 2)
 texture = ExtResource("7_o6xl0")
 expand_mode = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="NoteUI"]
 layout_mode = 0
-offset_left = -92.0
-offset_top = 107.0
-offset_right = -13.0
-offset_bottom = 187.0
+offset_left = -128.0
+offset_top = -126.0
+offset_right = 131.0
+offset_bottom = 137.0
+
+[node name="note2" parent="." groups=["notes"] instance=ExtResource("4_jyhfs")]
+transform = Transform3D(0.5, 0, 0, 0, -0.499862, -0.0117537, 0, 0.0117537, -0.499862, 3.2357, 1.25006, -0.888777)
+
+[node name="computer" parent="." instance=ExtResource("8_tipki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.99078, 0.64, -2.94896)
+
+[node name="CompUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_choun")
+
+[node name="InteractionLabel" type="Label" parent="CompUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 463.0
+offset_top = 290.0
+offset_right = 656.0
+offset_bottom = 313.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Press E to Interact."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Background" type="TextureRect" parent="CompUI"]
+z_index = -1
+layout_mode = 0
+offset_left = 404.0
+offset_top = 149.0
+offset_right = 586.0
+offset_bottom = 331.0
+scale = Vector2(2, 2)
+texture = ExtResource("9_85g3d")
+expand_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CompUI"]
+layout_mode = 0
+offset_left = 404.0
+offset_top = 150.0
+offset_right = 766.0
+offset_bottom = 511.0

@@ -8,7 +8,7 @@ signal note_opened(text)
 var is_open = false  # Tracks if the note is currently open
 
 func on_looked_at():
-	interaction_label.text = "Press [E] to read note"
+	interaction_label.text = "Press [E] to interact"
 	interaction_label.visible = true
 	#print("Looking at the note!")
 

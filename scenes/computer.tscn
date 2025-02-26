@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2a1hpvhaeiww"]
+
+[ext_resource type="Texture2D" uid="uid://dyv884s5v4xig" path="res://graphics/textures/Wood_03-128x128.png" id="1_7nkhe"]
+[ext_resource type="Script" uid="uid://2txd61bd7lfr" path="res://scripts/computer.gd" id="1_8pqrt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bamam"]
+size = Vector3(1.27145, 1.27472, 1.24719)
+
+[node name="Area3D" type="Area3D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_8pqrt")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.75)
+texture = ExtResource("1_7nkhe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00157267, 0.0118332, 0.117769)
+shape = SubResource("BoxShape3D_bamam")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+texture = ExtResource("1_7nkhe")
+
+[node name="Sprite3D3" type="Sprite3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.645441, 0, 0.115771)
+texture = ExtResource("1_7nkhe")
+
+[node name="Sprite3D4" type="Sprite3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.645, 0, 0.116)
+texture = ExtResource("1_7nkhe")
+
+[node name="Sprite3D5" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.002, -0.635087, 0.115)
+texture = ExtResource("1_7nkhe")
+
+[node name="Sprite3D6" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.00228989, 0.64528, 0.11478)
+texture = ExtResource("1_7nkhe")
