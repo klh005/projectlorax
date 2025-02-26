@@ -1,8 +1,8 @@
 extends CharacterBody3D
 
 @onready var raycast = $RayCast3D
-@onready var interaction_label = $"../NoteUI/InteractionLabel"
-@onready var note_ui = $"../NoteUI"  # Make sure the path is correct
+@onready var interaction_label = $"../UI/NoteUI/InteractionLabel"
+@onready var note_ui = $"../UI/NoteUI"  # Make sure the path is correct
 var current_note = null  # Stores the note the player is looking at
 var current_object = null
 
@@ -129,8 +129,34 @@ func _process(delta):
 	interaction_label.visible = false
 	current_object = null
 	
+@export var sound_threshold: float = 2.0  # Minimum speed to make sound
+@export var running_sound_multiplier: float = 2.0  # Increase sound when running
+
+# Existing is_making_sound() function - replace with this improved version
 func is_making_sound() -> bool:
-	# Check if the player's horizontal velocity is above a threshold.
-	# This considers movement noise (e.g., footsteps) when the player is moving.
+	# Calculate horizontal velocity (ignoring vertical/falling movement)
 	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
-	return horizontal_speed > 0.1
+	
+	# Check if the player is running
+	var is_running = Input.is_action_pressed("run")
+	
+	# Make more noise when running
+	var effective_speed = horizontal_speed
+	if is_running:
+		effective_speed *= running_sound_multiplier
+	
+	# Only emit sound if above threshold
+	var making_sound = effective_speed > sound_threshold
+	
+	# Optionally emit the signal with current position (if you want to keep this behavior)
+	if making_sound:
+		emit_signal("made_sound", global_position)
+		
+	return making_sound
+
+# Add this function to allow manual sound emission (for testing or other triggers)
+func make_noise(multiplier: float = 1.0) -> void:
+	emit_signal("made_sound", global_position)
+	
+	# You could visualize this with a debug sphere or message
+	print("Player made deliberate noise!")

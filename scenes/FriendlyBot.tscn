@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnjxwrlwlqu1h"]
+
+[ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="1_ffle5"]
+[ext_resource type="Script" uid="uid://7xpfc8bjxp5j" path="res://scripts/FriendlyNPC.gd" id="2_2derq"]
+
+[node name="Robot1" instance=ExtResource("1_ffle5")]
+script = ExtResource("2_2derq")
+npc_id = "robot1"
+npc_name = "Robot"
+interaction_distance = 3.0

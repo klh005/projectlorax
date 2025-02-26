@@ -1,38 +1,88 @@
 # GameState.gd
 extends Node
 
-# Game progression variables
-var current_level: int = 1
-var collected_notes: Array = []
-var game_difficulty: String = "normal"
+signal game_started
+signal keycard_collected
+signal factory_shutdown_attempted
 
-# Runtime state
-var is_game_paused: bool = false
-var jumpscare_in_progress: bool = false
+var is_game_active: bool = false
+var has_keycard: bool = false
+var has_flashlight: bool = false
+var collected_items: Array = []
+var shutdown_attempted: bool = false
 
-func _ready() -> void:
-	# Initialize default game state
-	reset()
+# Environment control
+var emergency_lights_on: bool = false
+var alarm_active: bool = false
 
-func reset() -> void:
-	# Reset all game state variables to default
-	current_level = 1
-	collected_notes = []
-	is_game_paused = false
-	jumpscare_in_progress = false
+func _ready():
+	pass
+
+func start_game():
+	if is_game_active:
+		return
+		
+	is_game_active = true
+	print("Factory defense mode activated! Robots are now hostile.")
 	
-	print("GameState: Game state has been reset")
-
-func add_collected_note(note_id: String) -> void:
-	if not collected_notes.has(note_id):
-		collected_notes.append(note_id)
-		print("GameState: Note collected: ", note_id)
-
-func is_note_collected(note_id: String) -> bool:
-	return collected_notes.has(note_id)
+	# Make all NPCs hostile
+	for npc in get_tree().get_nodes_in_group("npcs"):
+		if npc.has_method("become_hostile"):
+			print("Robot becoming hostile: ", npc.name)
+			npc.become_hostile()
 	
-func handle_jumpscare_begin() -> void:
-	jumpscare_in_progress = true
+	# Lock exit doors
+	for door in get_tree().get_nodes_in_group("doors"):
+		if door.door_id in ["exit_door", "control_room_door"]:
+			door.locked = true
 	
-func handle_jumpscare_end() -> void:
-	jumpscare_in_progress = false
+	# Turn off main lights, activate emergency lights
+	emergency_lights_on = true
+	for light in get_tree().get_nodes_in_group("main_lights"):
+		if light is Light3D:
+			light.visible = false
+	
+	for light in get_tree().get_nodes_in_group("emergency_lights"):
+		if light is Light3D:
+			light.visible = true
+	
+	# Start alarm sound if there's a global alarm node
+	alarm_active = true
+	var alarm = get_node_or_null("/root/Main/AlarmSound")
+	if alarm and alarm is AudioStreamPlayer:
+		alarm.play()
+	
+	emit_signal("game_started")
+	emit_signal("factory_shutdown_attempted")
+	
+	# Show notification message
+	show_notification("ALERT: Factory robots have detected your attempt to shut down operations. Escape is now your priority.", 5.0)
+	
+	shutdown_attempted = true
+
+func collect_keycard():
+	has_keycard = true
+	emit_signal("keycard_collected")
+	show_notification("Security keycard acquired. You can now access the control room.", 3.0)
+	
+	# Update elevator and door access
+	for elevator in get_tree().get_nodes_in_group("elevators"):
+		if elevator.has_method("set_has_keycard"):
+			elevator.set_has_keycard(true)
+
+func collect_flashlight():
+	has_flashlight = true
+	emit_signal("flashlight_collected")
+	show_notification("Flashlight acquired. You can now explore dark areas.", 3.0)
+
+func collect_item(item_id):
+	if not collected_items.has(item_id):
+		collected_items.append(item_id)
+		show_notification("Item collected: " + item_id, 2.0)
+
+func show_notification(text, duration = 3.0):
+	if get_node_or_null("/root/Main/NotificationSystem"):
+		get_node("/root/Main/NotificationSystem").show_notification(text, duration)
+	else:
+		# Fallback if notification system not found
+		print("NOTIFICATION: " + text)
