@@ -1,8 +1,8 @@
 extends Node3D
 
-@onready var note_ui = $NoteUI  # Adjust if needed
-@onready var pause_menu: Control = $PauseMenu
-@onready var jumpscare_effect = $JumpscareEffect
+@onready var note_ui = $UI/NoteUI  # Adjust if needed
+@onready var pause_menu: Control = $UI/PauseMenu
+@onready var jumpscare_effect = $UI/JumpscareEffect
 
 var is_jumpscare_active = false
 
