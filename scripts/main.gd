@@ -1,28 +1,105 @@
 extends Node3D
 
-@onready var note_ui = $UI/NoteUI  # Adjust if needed
+@onready var note_ui = $UI/NoteUI
 @onready var pause_menu: Control = $UI/PauseMenu
 @onready var jumpscare_effect = $UI/JumpscareEffect
+@onready var dialogue_ui = $UI/DialogueUI
+@onready var notification_system = $UI/NotificationSystem
+@onready var confirmation_dialog = $UI/ConfirmationDialog
+@onready var interaction_prompt = $UI/InteractionPrompt
 
 var is_jumpscare_active = false
+var ui_setup = preload("res://scripts/UI_Setup.gd").new()
 
 func _ready():
+	print("Main scene starting")
+	
+	# Initialize UI elements first
+	add_child(ui_setup)
+	ui_setup.setup_all_ui_elements()
+	
 	# Reset game state when starting a new game
-	if Engine.has_singleton("GameState"):
-		var game_state = Engine.get_singleton("GameState")
-		game_state.reset()
+	if get_node_or_null("/root/GameState"):
+		var game_state = get_node("/root/GameState")
+		if game_state.has_method("reset"):
+			game_state.reset()
 	
 	# Unpause and ensure game is ready to play
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	# Connects notes to NoteUI
+	# Connect notes to NoteUI (after UI is set up)
 	for note in get_tree().get_nodes_in_group("notes"):
-		note.note_opened.connect(note_ui.show_note)  # Connect open signal
-		note.note_closed.connect(note_ui.hide_note)  # Connect close signal
+		if note_ui:
+			if note.has_signal("note_opened") and note_ui.has_method("show_note"):
+				note.note_opened.connect(note_ui.show_note)
+			if note.has_signal("note_closed") and note_ui.has_method("hide_note"):
+				note.note_closed.connect(note_ui.hide_note)
 	
-	print("Node Hierarchy:")
-	print_node_hierarchy(self)
+	# Setup NPCs and Enemies
+	setup_npcs()
+	
+	print("Main scene initialization complete")
+
+func setup_npcs():
+	# Handle NPCs
+	if has_node("NPCs"):
+		for robot in $NPCs.get_children():
+			setup_robot_for_dialogue(robot, "robot2", "Robot 2")
+	
+	# Handle Enemies (they can also have dialogue when not hostile)
+	if has_node("Enemies"):
+		for enemy in $Enemies.get_children():
+			setup_robot_for_dialogue(enemy, "robot1", "Robot 1")
+
+func setup_robot_for_dialogue(robot, default_id, default_name):
+	print("Setting up dialogue for: " + robot.name)
+	
+	# Check if the robot already has a script
+	var has_friendly_script = false
+	var has_enemy_script = false
+	
+	if robot.get_script() != null:
+		var script_path = robot.get_script().resource_path
+		has_friendly_script = "FriendlyNPC.gd" in script_path
+		has_enemy_script = "enemyai.gd" in script_path or "EnemyAI.gd" in script_path
+	
+	# Only add FriendlyNPC script if not already assigned one
+	if not has_friendly_script and not has_enemy_script:
+		print("Adding FriendlyNPC script to " + robot.name)
+		robot.set_script(load("res://scripts/FriendlyNPC.gd"))
+		
+		# Set NPC properties after adding script
+		robot.npc_id = default_id
+		robot.npc_name = default_name
+	elif has_friendly_script:
+		# If it already has the FriendlyNPC script, just check/set properties
+		if robot.npc_id == "":
+			robot.npc_id = default_id
+		if robot.npc_name == "":
+			robot.npc_name = default_name
+	
+	# Make sure there's an interaction area
+	if not robot.has_node("InteractionArea"):
+		print("Adding interaction area to " + robot.name)
+		var area = Area3D.new()
+		area.name = "InteractionArea"
+		robot.add_child(area)
+		
+		var collision_shape = CollisionShape3D.new()
+		collision_shape.name = "CollisionShape3D"
+		collision_shape.shape = SphereShape3D.new()
+		collision_shape.shape.radius = 3.0
+		area.add_child(collision_shape)
+		
+		# Connect signals if it's a FriendlyNPC
+		if has_friendly_script:
+			area.body_entered.connect(Callable(robot, "_on_area_entered"))
+			area.body_exited.connect(Callable(robot, "_on_area_exited"))
+	
+	# Add to NPC group if not already
+	if not robot.is_in_group("npcs"):
+		robot.add_to_group("npcs")
 
 func create_jumpscare_effect(enemy):
 	if is_jumpscare_active:
@@ -31,7 +108,7 @@ func create_jumpscare_effect(enemy):
 	is_jumpscare_active = true
 	
 	# Get the player
-	var player = get_node("%Player")
+	var player = get_node_or_null("Player")
 	if not player:
 		print("ERROR: Player node not found!")
 		return
@@ -48,8 +125,10 @@ func create_jumpscare_effect(enemy):
 	# Get player camera
 	var player_camera = player.get_node("%PlayerCam")
 	if not player_camera:
-		print("ERROR: Player camera not found!")
-		return
+		player_camera = player.get_node_or_null("PlayerCam")
+		if not player_camera:
+			print("ERROR: Player camera not found!")
+			return
 	
 	# Create jumpscare sound
 	var jumpscare_sound = AudioStreamPlayer.new()
@@ -102,8 +181,9 @@ func create_jumpscare_effect(enemy):
 	# Free the jumpscare model
 	jumpscare_model.queue_free()
 	
-	# Let the enemy continue with its jumpscare sequence
-	enemy.do_jumpscare_sequence()
+	# Let the enemy continue with its jumpscare sequence if it has the method
+	if enemy.has_method("do_jumpscare_sequence"):
+		enemy.do_jumpscare_sequence()
 
 func _input(event):
 	# Skip input processing if a jumpscare is in progress
@@ -111,7 +191,12 @@ func _input(event):
 		return
 		
 	if event.is_action_pressed("cancel"):
-		# Toggle pause
+		# If dialogue is active, end it
+		if get_node_or_null("/root/DialogueManager") and get_node("/root/DialogueManager").is_dialogue_active:
+			get_node("/root/DialogueManager").end_dialogue()
+			return
+			
+		# Otherwise toggle pause menu
 		if pause_menu.visible:
 			pause_menu.hide()
 			get_tree().paused = false
@@ -120,9 +205,3 @@ func _input(event):
 			pause_menu.show()
 			get_tree().paused = true
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-func print_node_hierarchy(node: Node, indent: String = "") -> void:
-	print(indent + node.name + " (Type: " + node.get_class() + ")")
-	for child in node.get_children():
-		# Increase indentation for each level of depth
-		print_node_hierarchy(child, indent + "  ")
