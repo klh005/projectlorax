@@ -15,3 +15,4 @@ func _on_play_button_pressed() -> void:
 func _on_quit_button_pressed() -> void:
 	print("Quit button pressed!")
 	get_tree().quit()
+"res://scenes/main.tscn"

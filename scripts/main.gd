@@ -10,6 +10,8 @@ extends Node3D
 
 var is_jumpscare_active = false
 var ui_setup = preload("res://scripts/UI_Setup.gd").new()
+@onready var comp_ui = $UI/CompUI
+@onready var comp = $Computer
 
 func _ready():
 	print("Main scene starting")
@@ -205,3 +207,8 @@ func _input(event):
 			pause_menu.show()
 			get_tree().paused = true
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		#print("Found note:", note.name)
+		
+	comp.comp_opened.connect(comp_ui.show_comp)
+	comp.comp_closed.connect(comp_ui.hide_comp)
+	#print("All notes connected successfully!")
