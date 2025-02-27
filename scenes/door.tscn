@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://xxxxxxx"]
+
+[ext_resource type="Script" uid="uid://yuqcqqv2nomx" path="res://scripts/SimpleDoor.gd" id="1_xxxxx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xxxxx"]
+size = Vector3(0.2, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxxxx"]
+albedo_color = Color(0.392157, 0.254902, 0.141176, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xxxxx"]
+material = SubResource("StandardMaterial3D_xxxxx")
+size = Vector3(0.2, 2, 1)
+
+[node name="Door" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_xxxxx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_xxxxx")
+
+[node name="DoorPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DoorPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.5)
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="DoorHandleMesh" type="MeshInstance3D" parent="DoorPivot"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.2, 0, -0.25)
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_xxxxx")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://lye81ja0v1j0"]
+[gd_scene load_steps=20 format=3 uid="uid://lye81ja0v1j0"]
 
 [ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://rjo4kww0gn7l" path="res://scripts/main.gd" id="1_tefeu"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://drlvp7yt8vgru" path="res://scenes/note.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bnjxwrlwlqu1h" path="res://scenes/FriendlyBot.tscn" id="6_choun"]
+[ext_resource type="PackedScene" uid="uid://xxxxxxx" path="res://scenes/door.tscn" id="6_jkv2x"]
 [ext_resource type="Script" uid="uid://cxttc67m7otwu" path="res://scripts/note_ui.gd" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://cjis681n8vben" path="res://scenes/autoelevator.tscn" id="7_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://buvmmxrqb6e1t" path="res://graphics/textures/Metal_02-128x128.png" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://pj6sf5yttwjm" path="res://scenes/PauseMenu.tscn" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://bem8kemvd7sjo" path="res://scenes/jumpscare_effect.tscn" id="9_85g3d"]
@@ -66,6 +68,21 @@ interaction_distance = 5.0
 transform = Transform3D(-0.999306, 0, 0.0372542, 0, 1, 0, -0.0372542, 0, -0.999306, 3.31703, 0.869073, -5.43187)
 
 [node name="GridMap" parent="." instance=ExtResource("3_eb6dy")]
+
+[node name="Door" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
+transform = Transform3D(-0.0354349, 0, -1.79965, 0, 1.8, 0, 1.79965, 0, -0.0354349, -0.0207615, 1.66297, -13.2548)
+auto_close_time = 10.0
+
+[node name="AutoElevator" parent="GridMap" instance=ExtResource("7_jbj1t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85674, 2.05698, -23.9487)
+
+[node name="Door2" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
+transform = Transform3D(-1.99845, 0, 0.0787291, 0, 2, 0, -0.0787291, 0, -1.99845, -5.2431, 1.58052, -17.9609)
+auto_close_time = 10.0
+
+[node name="Door3" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
+transform = Transform3D(-8.74228e-08, 0, 2, 0, 2, 0, -2, 0, -8.74228e-08, -12.0019, 1.58164, -22.4734)
+auto_close_time = 10.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sugp2")
