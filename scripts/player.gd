@@ -155,8 +155,8 @@ func _process(delta):
 			looking_comp = true
 			return
 			
-	#comp_interaction_label.visible = false
-	#interaction_label.visible = false
+	comp_interaction_label.visible = false
+	interaction_label.visible = false
 	#looking_note = false
 	#looking_comp = false
 	#current_object = null
