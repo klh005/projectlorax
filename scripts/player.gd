@@ -1,11 +1,10 @@
 extends CharacterBody3D
 
-@onready var interaction_label = $"../NoteUI/InteractionLabel"
-@onready var comp_interaction_label = $"../CompUI/InteractionLabel"
-@onready var note_ui = $"../NoteUI"  # Make sure the path is correct
-@onready var raycast = $RayCast3D
 @onready var interaction_label = $"../UI/NoteUI/InteractionLabel"
+@onready var comp_interaction_label = $"../UI/CompUI/InteractionLabel"
 @onready var note_ui = $"../UI/NoteUI"  # Make sure the path is correct
+@onready var comp_ui = $"../UI/CompUI"
+#@onready var raycast = $RayCast3D
 var current_note = null  # Stores the note the player is looking at
 var looking_note = false
 var looking_comp = false
@@ -33,9 +32,8 @@ var comp_status = null
 @export var head_bob_speed := 10.0
 
 # Camera reference
-@onready var head := $Camera3D
-@onready var raycast = $Camera3D2/RayCast3D
-
+#@onready var head := $Camera3D
+@onready var raycast = $"../Player/RayCast3D"
 @onready var head := %PlayerCam
 
 signal made_sound(player_position: Vector3)
@@ -74,7 +72,7 @@ func _input(event):
 				current_note = null
 			else:
 				#print("Opening note...")
-				current_note.open_note()
+				current_note.open_note(current_note.get_node("RichTextLabel").text)
 		elif comp_status:
 			print("Comp detected")
 			if comp_status.is_open:
@@ -84,7 +82,9 @@ func _input(event):
 			else:
 				#print("Opening computer...")
 				comp_status.open_comp()
-		
+	if comp_status and comp_status.is_open:
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			comp_ui.go_next()
 
 func _physics_process(delta):
 	handle_movement(delta)
@@ -159,7 +159,7 @@ func _process(delta):
 	interaction_label.visible = false
 	#looking_note = false
 	#looking_comp = false
-	current_object = null
+	#current_object = null
 	
 @export var sound_threshold: float = 2.0  # Minimum speed to make sound
 @export var running_sound_multiplier: float = 2.0  # Increase sound when running

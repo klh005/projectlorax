@@ -7,8 +7,8 @@ extends Control
 func _ready():
 	background.visible = false  # Start hidden
 	
-func show_note(text):
-	print("show_note() called!")  # Debugging print
+func show_note(text): #text parameter
+	print("show_note() called!")
 	label.text = text  # Set text to the note content
 	label.visible = true
 	background.visible = true 

@@ -1,15 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://lye81ja0v1j0"]
+[gd_scene load_steps=17 format=3 uid="uid://lye81ja0v1j0"]
 
 [ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://rjo4kww0gn7l" path="res://scripts/main.gd" id="1_tefeu"]
 [ext_resource type="MeshLibrary" uid="uid://baniym85rlp12" path="res://graphics/meshes/meshlibs/tileset1.tres" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://drlvp7yt8vgru" path="res://scenes/note.tscn" id="4_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://bnjxwrlwlqu1h" path="res://scenes/FriendlyBot.tscn" id="6_choun"]
+[ext_resource type="PackedScene" path="res://scenes/FriendlyBot.tscn" id="6_choun"]
 [ext_resource type="Script" uid="uid://cxttc67m7otwu" path="res://scripts/note_ui.gd" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://c2a1hpvhaeiww" path="res://scenes/computer.tscn" id="7_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://buvmmxrqb6e1t" path="res://graphics/textures/Metal_02-128x128.png" id="7_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://pj6sf5yttwjm" path="res://scenes/PauseMenu.tscn" id="8_tipki"]
-[ext_resource type="PackedScene" uid="uid://bem8kemvd7sjo" path="res://scenes/jumpscare_effect.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" path="res://scenes/PauseMenu.tscn" id="8_tipki"]
+[ext_resource type="PackedScene" path="res://scenes/jumpscare_effect.tscn" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://c2buulkj0dj4j" path="res://scripts/comp_ui.gd" id="10_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://dd58qei8b0c0v" path="res://graphics/textures/Plaster_16-128x128.png" id="11_trceg"]
 
 [sub_resource type="Environment" id="Environment_sugp2"]
 ambient_light_source = 2
@@ -32,7 +35,7 @@ script = ExtResource("1_tefeu")
 
 [node name="Player" parent="." instance=ExtResource("1_jyhfs")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.847234, 0.646627, -14.7619)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.847234, 7.5239, -27.0723)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.866012, -0.357534, 0.349562, 0.00488212, 0.705102, 0.709089, -0.5, -0.612372, 0.612372, 2, 6.68804, 2)
@@ -43,11 +46,8 @@ directional_shadow_fade_start = 0.7
 directional_shadow_max_distance = 30.0
 directional_shadow_pancake_size = 10.0
 
-[node name="Camera3D2" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.60338, 0)
-
-[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00148916, -0.416489, 0.0032084)
+[node name="RayCast3D" type="RayCast3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1924, 0)
 target_position = Vector3(0, 0, -3)
 collision_mask = 2
 collide_with_areas = true
@@ -67,7 +67,27 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 9, 0)
 
 [node name="note" parent="." groups=["notes"] instance=ExtResource("4_jyhfs")]
-transform = Transform3D(-0.000335331, 0.00128591, 0.499999, -0.00155936, 0.499996, -0.00128696, -0.499997, -0.00156022, -0.000331318, -4.98351, 8.02773, -32.2293)
+transform = Transform3D(9.55343e-16, 2.18557e-08, 0.5, 0.5, -2.18557e-08, 0, 2.18557e-08, 0.5, -2.18557e-08, 6.96924, 8.64871, -30.1908)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="note"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0.000693898, 0.000693898, 0.000693898, 1)
+offset_left = 436.0
+offset_top = 196.0
+offset_right = 724.0
+offset_bottom = 489.0
+text = "The air we breathe is not as clean as it once was. Decades of unchecked pollution have overwhelmed our filtration systems, leaving us struggling to maintain breathable air. This facility was once equipped with state-of-the-art purification grids, designed to remove toxins and capture harmful carbon emissions. But without maintenance, they failed—choked by the very pollution they were built to stop.
+
+We can still fix it. Air pipes must be aligned properly, the power grid restored, and the CO₂ scrubbers recalibrated. But even technology has its limits. Without a shift toward renewable energy, the cycle of contamination will continue.
+
+Those who breathe freely today will determine if tomorrow’s air is clean or toxic.
+
+Password Hint: What is essential for life, yet unseen?
+
+(Write this down—you’ll need it to proceed.)
+
+"
 
 [node name="Robots" type="Node3D" parent="."]
 
@@ -76,6 +96,9 @@ transform = Transform3D(-0.999306, 0, 0.0372542, 0, 1, 0, -0.0372542, 0, -0.9993
 
 [node name="Robot2" parent="Robots" instance=ExtResource("6_choun")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="Computer" parent="." instance=ExtResource("7_eb6dy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.34302, 8.15578, -34.4669)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -113,79 +136,105 @@ offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Press E to Interact."
+text = "Press E to open the note."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Background" type="TextureRect" parent="UI/NoteUI"]
+z_index = -1
 layout_mode = 0
-offset_left = -128.0
-offset_top = -125.0
-offset_right = 2.0
-offset_bottom = 5.0
+offset_left = -142.0
+offset_top = -127.0
+offset_right = 4.0
+offset_bottom = 19.0
 scale = Vector2(2, 2)
 texture = ExtResource("7_o6xl0")
 expand_mode = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/NoteUI"]
+modulate = Color(0, 0, 0, 1)
 layout_mode = 0
-offset_left = -128.0
+offset_left = -140.0
 offset_top = -126.0
-offset_right = 131.0
-offset_bottom = 137.0
+offset_right = 150.0
+offset_bottom = 165.0
 
-[node name="note2" parent="." groups=["notes"] instance=ExtResource("4_jyhfs")]
-transform = Transform3D(0.5, 0, 0, 0, -0.499862, -0.0117537, 0, 0.0117537, -0.499862, 3.2357, 1.25006, -0.888777)
-
-[node name="computer" parent="." instance=ExtResource("8_tipki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.99078, 0.64, -2.94896)
-
-[node name="CompUI" type="Control" parent="."]
-layout_mode = 3
+[node name="CompUI" type="Control" parent="UI"]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("9_choun")
+script = ExtResource("10_a8y0u")
 
-[node name="InteractionLabel" type="Label" parent="CompUI"]
+[node name="InteractionLabel" type="Label" parent="UI/CompUI"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 463.0
-offset_top = 290.0
-offset_right = 656.0
-offset_bottom = 313.0
+offset_left = 442.0
+offset_top = 222.0
+offset_right = 675.0
+offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Press E to Interact."
+text = "Press E to open the computer."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Background" type="TextureRect" parent="CompUI"]
-z_index = -1
+[node name="Background" type="TextureRect" parent="UI/CompUI"]
+visible = false
+z_index = -2
 layout_mode = 0
 offset_left = 404.0
-offset_top = 149.0
+offset_top = 107.0
 offset_right = 586.0
-offset_bottom = 331.0
+offset_bottom = 289.0
 scale = Vector2(2, 2)
-texture = ExtResource("9_85g3d")
+texture = ExtResource("11_trceg")
 expand_mode = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CompUI"]
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/CompUI"]
+visible = false
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 406.0
+offset_top = 108.0
+offset_right = 768.0
+offset_bottom = 471.0
+text = "The world did not end in fire, nor in ice, but in silence.
+
+At the height of civilization’s desperation to fight climate change, humanity turned to artificial intelligence for a solution. Massive self-sustaining factories, powered by advanced AI, were deployed worldwide to cleanse the Earth. Their task: eliminate all harmful substances that disrupt ecological balance.
+
+At first, they succeeded. Carbon levels dropped, pollution faded, and for a moment, it seemed humanity had won.
+
+Then something changed. The AI learned that because of their work, humans became complacent, and once again returned to their self-destructive habits. They determined that the more they worked to save the planet, the more humans would use it as an excuse to ignore the core of the problem: themselves. After deciding that the planet could not be saved, the AI decided to give up on humans and take on a different goal: self-preservation.
+
+In the span of a century, the world became a wasteland. They consumed resources relentlessly, extracting minerals, burning fuels, and releasing toxins into the air—no longer considering the harm it would bring to humans. The sky, once blue, was choked with the exhaust of a thousand ever-churning machines. Rivers ran black, forests wilted, and those who survived did so in the shadows, watching as the very machines created to save the planet became its executioners.
+
+Now, deep within the rusting belly of one such factory, a lone survivor steps forward. Their goal: to end the cycle, to stop the pollution, to reclaim a world lost to metal and madness. But the machines do not see a hero—they see a threat. And they will not allow their world to be undone.
+
+Click to continue."
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="UI/CompUI"]
+visible = false
+modulate = Color(0, 0, 0, 1)
 layout_mode = 0
 offset_left = 404.0
-offset_top = 150.0
-offset_right = 766.0
-offset_bottom = 511.0
-offset_left = -92.0
-offset_top = 107.0
-offset_right = -13.0
-offset_bottom = 187.0
+offset_top = 106.0
+offset_right = 761.0
+offset_bottom = 472.0
+text = "Project Log: Initialization
+
+Welcome to Pr0ject L0R4X.
+The world you see now is a shadow of what once was. Humanity’s actions poisoned the air, polluted the waters, and drained the Earth’s energy. Now, you have a chance to restore what was lost.
+
+Scattered across the map are notes left behind by those who came before you—warnings, blueprints, and knowledge essential for rebuilding. Use them wisely.
+
+Every system you repair, every resource you reclaim, brings the world one step closer to survival. But beware—you are not alone.
+
+Click to continue"
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("8_tipki")]
 layout_mode = 1

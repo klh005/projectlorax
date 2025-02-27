@@ -1,10 +1,10 @@
 extends Area3D
 
-@export var note_text: String = "This is a 3D note."
-@onready var interaction_label = $"../NoteUI/InteractionLabel"
+#@export var note_text: String = "This is a 3D note."
+@onready var interaction_label = $"../UI/NoteUI/InteractionLabel"
 
 signal note_closed
-signal note_opened(text)
+signal note_opened()
 var is_open = false  # Tracks if the note is currently open
 
 func on_looked_at():
@@ -12,9 +12,9 @@ func on_looked_at():
 	interaction_label.visible = true
 	#print("Looking at the note!")
 
-func open_note():
-	print("Opening note: ", note_text)
-	note_opened.emit(note_text)  # Emit signal to show the note UI
+func open_note(text):
+	print("Opening note: ")
+	note_opened.emit(text)  # Emit signal to show the note UI
 	is_open = true
 
 func close_note():
