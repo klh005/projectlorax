@@ -5,17 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://cejt3g4vmy55t" path="res://scenes/mapexport.tscn" id="3_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://drlvp7yt8vgru" path="res://scenes/note.tscn" id="4_jyhfs"]
-[ext_resource type="PackedScene" uid="uid://bnjxwrlwlqu1h" path="res://scenes/FriendlyBot.tscn" id="6_choun"]
-[ext_resource type="PackedScene" uid="uid://xxxxxxx" path="res://scenes/door.tscn" id="6_jkv2x"]
+[ext_resource type="PackedScene" path="res://scenes/FriendlyBot.tscn" id="6_choun"]
+[ext_resource type="PackedScene" uid="uid://xxxxxxx" path="res://scenes/keycarddoor.tscn" id="6_jkv2x"]
 [ext_resource type="Script" uid="uid://cxttc67m7otwu" path="res://scripts/note_ui.gd" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cjis681n8vben" path="res://scenes/autoelevator.tscn" id="7_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://buvmmxrqb6e1t" path="res://graphics/textures/Metal_02-128x128.png" id="7_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://pj6sf5yttwjm" path="res://scenes/PauseMenu.tscn" id="8_tipki"]
-[ext_resource type="PackedScene" uid="uid://bem8kemvd7sjo" path="res://scenes/jumpscare_effect.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" path="res://scenes/PauseMenu.tscn" id="8_tipki"]
+[ext_resource type="PackedScene" path="res://scenes/jumpscare_effect.tscn" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://bvpgp80l14488" path="res://scripts/DialogueUI.gd" id="11_eb6dy"]
-[ext_resource type="Script" uid="uid://cbprir8mwudhk" path="res://scripts/InteractionPrompt.gd" id="12_trceg"]
-[ext_resource type="Script" uid="uid://crmojom75e7w1" path="res://scripts/ConfirmationDialog.gd" id="13_a8y0u"]
-[ext_resource type="Script" uid="uid://bjo2q3uejqq7m" path="res://scripts/NotificationSystem.gd" id="14_jkv2x"]
+[ext_resource type="Script" path="res://scripts/InteractionPrompt.gd" id="12_trceg"]
+[ext_resource type="Script" path="res://scripts/ConfirmationDialog.gd" id="13_a8y0u"]
+[ext_resource type="Script" path="res://scripts/NotificationSystem.gd" id="14_jkv2x"]
 
 [sub_resource type="Environment" id="Environment_sugp2"]
 ambient_light_source = 2
@@ -75,6 +75,7 @@ auto_close_time = 10.0
 
 [node name="AutoElevator" parent="GridMap" instance=ExtResource("7_jbj1t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85674, 2.05698, -23.9487)
+script = null
 
 [node name="Door2" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
 transform = Transform3D(-1.99845, 0, 0.0787291, 0, 2, 0, -0.0787291, 0, -1.99845, -5.2431, 1.58052, -17.9609)
