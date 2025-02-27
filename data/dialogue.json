@@ -1,0 +1,80 @@
+{
+  "robot1": {
+	"name": "Robot",
+	"greeting": {
+	  "text": "Hello human! I am Robot 1. How can I assist you today?",
+	  "options": [
+		{"text": "What is this place?", "next": "place_info"},
+		{"text": "How do I get out of here?", "next": "escape_info"},
+		{"text": "Goodbye.", "next": "end"}
+	  ]
+	},
+	"place_info": {
+	  "text": "This is a research facility. We were working on advanced AI, but something went wrong...",
+	  "options": [
+		{"text": "What went wrong?", "next": "problem_info"},
+		{"text": "Let's talk about something else.", "next": "greeting"}
+	  ]
+	},
+	"problem_info": {
+	  "text": "The AI systems became unstable. Some robots may turn hostile if the emergency button is pressed.",
+	  "options": [
+		{"text": "I'll be careful.", "next": "end"},
+		{"text": "Let's talk about something else.", "next": "greeting"}
+	  ]
+	},
+	"escape_info": {
+	  "text": "The exit is on the top floor. You can use the elevator to get there.",
+	  "options": [
+		{"text": "Thanks for the info.", "next": "end"},
+		{"text": "Let's talk about something else.", "next": "greeting"}
+	  ]
+	}
+  },
+  "robot2": {
+	"name": "Robot",
+	"greeting": {
+	  "text": "GREETINGS HUMAN. I AM MAINTENANCE UNIT #42. MY SYSTEMS ARE FUNCTIONING WITHIN NORMAL PARAMETERS.",
+	  "options": [
+		{"text": "Have you noticed anything strange?", "next": "strange_info"},
+		{"text": "Where can I find a keycard?", "next": "keycard_info"},
+		{"text": "I'll leave you to your work.", "next": "end"}
+	  ]
+	},
+	"strange_info": {
+	  "text": "ANOMALIES DETECTED IN CENTRAL CONTROL. SECURITY PROTOCOLS HAVE BEEN MODIFIED. CAUTION IS ADVISED.",
+	  "options": [
+		{"text": "Is there a safe way out?", "next": "escape_info"},
+		{"text": "I have another question.", "next": "greeting"}
+	  ]
+	},
+	"keycard_info": {
+	  "text": "ACCESS CARDS ARE LOCATED IN SECURITY OFFICE ON LEVEL 2. CURRENT SECURITY CHIEF: DAVIS.",
+	  "options": [
+		{"text": "How do I get to level 2?", "next": "level2_info"},
+		{"text": "I have another question.", "next": "greeting"}
+	  ]
+	},
+	"level2_info": {
+	  "text": "USE ELEVATOR IN EAST WING. WARNING: SOME AREAS MAY BE RESTRICTED WITHOUT PROPER AUTHORIZATION.",
+	  "options": [
+		{"text": "Thanks for the information.", "next": "end"},
+		{"text": "I have another question.", "next": "greeting"}
+	  ]
+	},
+	"escape_info": {
+	  "text": "EMERGENCY EXIT LOCATED IN NORTH SECTOR. REQUIRES LEVEL 3 CLEARANCE. ALTERNATIVE: MAINTENANCE TUNNELS IN SUBLEVEL B.",
+	  "options": [
+		{"text": "Where are the maintenance tunnels?", "next": "tunnels_info"},
+		{"text": "I have another question.", "next": "greeting"}
+	  ]
+	},
+	"tunnels_info": {
+	  "text": "ACCESS POINT NEAR COOLING SYSTEMS. CAUTION: AUTOMATED DEFENSE SYSTEMS MAY BE ACTIVE.",
+	  "options": [
+		{"text": "I'll be careful. Thanks.", "next": "end"},
+		{"text": "I have another question.", "next": "greeting"}
+	  ]
+	}
+  }
+}

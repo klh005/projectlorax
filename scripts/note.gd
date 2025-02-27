@@ -1,6 +1,5 @@
 extends Area3D
 
-#@export var note_text: String = "This is a 3D note."
 @onready var interaction_label = $"../UI/NoteUI/InteractionLabel"
 
 signal note_closed

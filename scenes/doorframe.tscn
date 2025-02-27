@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://xxxxxxx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxxxx"]
+albedo_color = Color(0.392157, 0.254902, 0.141176, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xxxxx"]
+material = SubResource("StandardMaterial3D_xxxxx")
+size = Vector3(0.2, 2.2, 0.2)
+
+[node name="DoorFrame" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+
+[node name="TopFrame" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.5, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 1.1, 0)
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="LeftFrame" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 2.2, 0, 0, 0, 0.2, -1.1, 0, 0)
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="RightFrame" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 2.2, 0, 0, 0, 0.2, 1.1, 0, 0)
+mesh = SubResource("BoxMesh_xxxxx")

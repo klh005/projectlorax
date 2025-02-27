@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://xxxxxxx"]
+
+[ext_resource type="Script" path="res://scripts/SimpleDoor.gd" id="1_xxxxx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xxxxx"]
+size = Vector3(0.2, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxxxx"]
+albedo_color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xxxxx"]
+material = SubResource("StandardMaterial3D_xxxxx")
+size = Vector3(0.2, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yyyyy"]
+albedo_color = Color(0.862745, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yyyyy"]
+material = SubResource("StandardMaterial3D_yyyyy")
+size = Vector3(0.1, 0.2, 0.05)
+
+[node name="KeycardDoor" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_xxxxx")
+locked = true
+requires_keycard = true
+door_id = "keycard_door"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_xxxxx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="DoorFrame" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0)
+mesh = SubResource("BoxMesh_xxxxx")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="DoorHandleMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.1, 0, 0.25)
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="CardReaderMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.2, 0.4)
+mesh = SubResource("BoxMesh_yyyyy")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+transform = Transform3D(1.5, 0, 0, 0, 1, 0, 0, 0, 1.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_xxxxx")

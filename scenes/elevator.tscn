@@ -1,0 +1,105 @@
+[gd_scene load_steps=10 format=3 uid="uid://xxxxxxx"]
+
+[ext_resource type="Script" uid="uid://33pl0df8l5ek" path="res://scripts/GridMapElevator.gd" id="1_xxxxx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xxxxx"]
+size = Vector3(3, 3.5, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxxxx"]
+albedo_color = Color(0.517647, 0.517647, 0.517647, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xxxxx"]
+material = SubResource("StandardMaterial3D_xxxxx")
+size = Vector3(3, 3.5, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yyyyy"]
+albedo_color = Color(0.25098, 0.25098, 0.25098, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yyyyy"]
+material = SubResource("StandardMaterial3D_yyyyy")
+size = Vector3(0.1, 3, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_zzzzz"]
+albedo_color = Color(0.901961, 0.901961, 0.901961, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_zzzzz"]
+material = SubResource("StandardMaterial3D_zzzzz")
+size = Vector3(0.1, 3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yyyyy"]
+size = Vector3(2.5, 3, 2.5)
+
+[node name="Elevator" type="Node3D"]
+script = ExtResource("1_xxxxx")
+
+[node name="ElevatorCabin" type="Node3D" parent="."]
+
+[node name="CollisionBox" type="StaticBody3D" parent="ElevatorCabin"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ElevatorCabin/CollisionBox"]
+shape = SubResource("BoxShape3D_xxxxx")
+
+[node name="Floor" type="MeshInstance3D" parent="ElevatorCabin"]
+transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, -1.7, 0)
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="Ceiling" type="MeshInstance3D" parent="ElevatorCabin"]
+transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 1.7, 0)
+mesh = SubResource("BoxMesh_xxxxx")
+
+[node name="WallBack" type="MeshInstance3D" parent="ElevatorCabin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0, -1.45)
+mesh = SubResource("BoxMesh_yyyyy")
+
+[node name="WallLeft" type="MeshInstance3D" parent="ElevatorCabin"]
+transform = Transform3D(0.1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45, 0, 0)
+mesh = SubResource("BoxMesh_yyyyy")
+
+[node name="WallRight" type="MeshInstance3D" parent="ElevatorCabin"]
+transform = Transform3D(0.1, 0, 0, 0, 1, 0, 0, 0, 1, 1.45, 0, 0)
+mesh = SubResource("BoxMesh_yyyyy")
+
+[node name="Door" type="MeshInstance3D" parent="ElevatorCabin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0, 1.45)
+material_override = SubResource("StandardMaterial3D_zzzzz")
+mesh = SubResource("BoxMesh_zzzzz")
+
+[node name="ButtonPanel" type="VBoxContainer" parent="ElevatorCabin"]
+
+[node name="Button1" type="Button" parent="ElevatorCabin/ButtonPanel"]
+layout_mode = 2
+text = "1"
+
+[node name="Button2" type="Button" parent="ElevatorCabin/ButtonPanel"]
+layout_mode = 2
+text = "2"
+
+[node name="Button3" type="Button" parent="ElevatorCabin/ButtonPanel"]
+layout_mode = 2
+text = "3"
+
+[node name="FloorDisplay" type="Label3D" parent="ElevatorCabin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -1.4)
+text = "1"
+font_size = 64
+outline_size = 2
+
+[node name="InteriorLight" type="OmniLight3D" parent="ElevatorCabin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+light_energy = 0.8
+omni_range = 4.0
+
+[node name="InteriorArea" type="Area3D" parent="ElevatorCabin"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ElevatorCabin/InteriorArea"]
+shape = SubResource("BoxShape3D_yyyyy")
+
+[node name="MovingSound" type="AudioStreamPlayer3D" parent="ElevatorCabin"]
+volume_db = -10.0
+
+[node name="DoorSound" type="AudioStreamPlayer3D" parent="ElevatorCabin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4)
+volume_db = -15.0
+
+[node name="ArrivalSound" type="AudioStreamPlayer3D" parent="ElevatorCabin"]
+volume_db = -10.0
