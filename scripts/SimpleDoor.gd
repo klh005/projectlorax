@@ -5,6 +5,8 @@ extends StaticBody3D
 @export var requires_keycard: bool = false
 @export var door_id: String = "door_1"
 @export var auto_close_time: float = 5.0  # Set to 0 to disable auto-close
+@export var open_angle: float = 90.0  # Degrees the door opens
+@export var reverse_rotation: bool = false  # Flip rotation direction
 
 var is_open: bool = false
 var player_nearby: bool = false
@@ -24,9 +26,15 @@ func _ready():
 		collision_shape.shape = BoxShape3D.new()
 		collision_shape.shape.size = Vector3(3, 2, 3)  # Adjust as needed
 		area.add_child(collision_shape)
+	
+	# Connect signals
+	if has_node("InteractionArea"):
+		var area = get_node("InteractionArea")
+		if not area.is_connected("body_entered", Callable(self, "_on_interaction_area_body_entered")):
+			area.body_entered.connect(Callable(self, "_on_interaction_area_body_entered"))
 		
-		area.body_entered.connect(Callable(self, "_on_interaction_area_body_entered"))
-		area.body_exited.connect(Callable(self, "_on_interaction_area_body_exited"))
+		if not area.is_connected("body_exited", Callable(self, "_on_interaction_area_body_exited")):
+			area.body_exited.connect(Callable(self, "_on_interaction_area_body_exited"))
 
 func _process(_delta):
 	if player_nearby and Input.is_action_just_pressed("interact"):
@@ -54,13 +62,17 @@ func open_door():
 	
 	is_open = true
 	
-	# Simple door position change (no animation)
-	# This rotates the door 90 degrees to open it
-	var tween = create_tween()
-	tween.tween_property(self, "rotation:y", rotation.y + PI/2, 0.5)
-	
 	# Disable collision while door is open
-	$CollisionShape3D.disabled = true
+	if has_node("CollisionShape3D"):
+		$CollisionShape3D.disabled = true
+	
+	# Rotate the door along its hinge
+	var target_angle = deg_to_rad(open_angle)
+	if reverse_rotation:
+		target_angle = -target_angle
+		
+	var tween = create_tween()
+	tween.tween_property($DoorPivot, "rotation:y", target_angle, 0.5)
 	
 	# Auto-close timer
 	if auto_close_time > 0:
@@ -73,13 +85,15 @@ func close_door():
 	
 	# Simple door position change (no animation)
 	var tween = create_tween()
-	tween.tween_property(self, "rotation:y", rotation.y - PI/2, 0.5)
+	tween.tween_property($DoorPivot, "rotation:y", 0.0, 0.5)
 	
 	# Re-enable collision
-	$CollisionShape3D.disabled = false
+	await tween.finished
+	if has_node("CollisionShape3D"):
+		$CollisionShape3D.disabled = false
 
 func _on_interaction_area_body_entered(body):
-	if body.name == "Player":
+	if body.name == "Player" or body.name == "%Player" or body.get_path().get_name(body.get_path().get_name_count() - 1) == "Player":
 		player_nearby = true
 		if get_node_or_null("/root/Main/InteractionPrompt"):
 			if not locked:
@@ -91,7 +105,7 @@ func _on_interaction_area_body_entered(body):
 					get_node("/root/Main/InteractionPrompt").show_prompt("This door is locked")
 
 func _on_interaction_area_body_exited(body):
-	if body.name == "Player":
+	if body.name == "Player" or body.name == "%Player" or body.get_path().get_name(body.get_path().get_name_count() - 1) == "Player":
 		player_nearby = false
 		if get_node_or_null("/root/Main/InteractionPrompt"):
 			get_node("/root/Main/InteractionPrompt").hide_prompt()

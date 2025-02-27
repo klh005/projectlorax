@@ -1,15 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://lye81ja0v1j0"]
+[gd_scene load_steps=21 format=3 uid="uid://lye81ja0v1j0"]
 
 [ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://rjo4kww0gn7l" path="res://scripts/main.gd" id="1_tefeu"]
-[ext_resource type="PackedScene" uid="uid://cejt3g4vmy55t" path="res://scenes/mapexport.tscn" id="3_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://drlvp7yt8vgru" path="res://scenes/note.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://cx4l4dwwc2ke4" path="res://scenes/grid_map.tscn" id="5_muem4"]
 [ext_resource type="PackedScene" uid="uid://bnjxwrlwlqu1h" path="res://scenes/FriendlyBot.tscn" id="6_choun"]
-[ext_resource type="PackedScene" uid="uid://xxxxxxx" path="res://scenes/door.tscn" id="6_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://xxxxxxx" path="res://scenes/keycarddoor.tscn" id="6_jkv2x"]
 [ext_resource type="Script" uid="uid://cxttc67m7otwu" path="res://scripts/note_ui.gd" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://cjis681n8vben" path="res://scenes/autoelevator.tscn" id="7_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://buvmmxrqb6e1t" path="res://graphics/textures/Metal_02-128x128.png" id="7_o6xl0"]
+[ext_resource type="PackedScene" path="res://scenes/computer.tscn" id="8_dp3eg"]
 [ext_resource type="PackedScene" uid="uid://pj6sf5yttwjm" path="res://scenes/PauseMenu.tscn" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://bem8kemvd7sjo" path="res://scenes/jumpscare_effect.tscn" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://bvpgp80l14488" path="res://scripts/DialogueUI.gd" id="11_eb6dy"]
@@ -58,16 +59,15 @@ collide_with_areas = true
 [node name="NPCs" type="Node3D" parent="."]
 
 [node name="Robot2" parent="NPCs" groups=["npcs"] instance=ExtResource("6_choun")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00764, -20)
+transform = Transform3D(-0.999992, 0, 0.00397935, 0, 1, 0, -0.00397935, 0, -0.999992, 0, 0.61809, -20)
 npc_id = "robot2"
-interaction_distance = 5.0
 
 [node name="Enemies" type="Node3D" parent="."]
 
 [node name="Robot1" parent="Enemies" instance=ExtResource("3_sugp2")]
 transform = Transform3D(-0.999306, 0, 0.0372542, 0, 1, 0, -0.0372542, 0, -0.999306, 3.31703, 0.869073, -5.43187)
 
-[node name="GridMap" parent="." instance=ExtResource("3_eb6dy")]
+[node name="GridMap" parent="." instance=ExtResource("5_muem4")]
 
 [node name="Door" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
 transform = Transform3D(-0.0354349, 0, -1.79965, 0, 1.8, 0, 1.79965, 0, -0.0354349, -0.0207615, 1.66297, -13.2548)
@@ -83,6 +83,10 @@ auto_close_time = 10.0
 [node name="Door3" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
 transform = Transform3D(-8.74228e-08, 0, 2, 0, 2, 0, -2, 0, -8.74228e-08, -12.0019, 1.58164, -22.4734)
 auto_close_time = 10.0
+
+[node name="Area3D" parent="." instance=ExtResource("8_dp3eg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.51666, 1.52897, -21.8404)
+script = null
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_sugp2")
