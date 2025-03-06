@@ -27,7 +27,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.5)
 mesh = SubResource("BoxMesh_xxxxx")
 
 [node name="DoorHandleMesh" type="MeshInstance3D" parent="DoorPivot"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.2, 0, -0.25)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.2, 0, -0.869091)
 mesh = SubResource("BoxMesh_xxxxx")
 
 [node name="InteractionArea" type="Area3D" parent="."]

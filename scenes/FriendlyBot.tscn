@@ -8,3 +8,4 @@ script = ExtResource("2_2derq")
 npc_id = "robot1"
 npc_name = "Robot"
 interaction_distance = 3.0
+face_player_during_dialogue = true

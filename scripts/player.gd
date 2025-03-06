@@ -1,14 +1,15 @@
 extends CharacterBody3D
 
-@onready var interaction_label = $"../UI/NoteUI/InteractionLabel"
-@onready var comp_interaction_label = $"../UI/CompUI/InteractionLabel"
-@onready var note_ui = $"../UI/NoteUI"  # Make sure the path is correct
-@onready var comp_ui = $"../UI/CompUI"
-#@onready var raycast = $RayCast3D
+@onready var interaction_label = null
+@onready var comp_interaction_label = null
+@onready var note_ui = null
+@onready var comp_ui = null
+@onready var raycast = null
+@onready var head = null
+
 var current_note = null  # Stores the note the player is looking at
-var looking_note = false
-var looking_comp = false
-var comp_status = null
+var current_comp = null  # Stores the computer the player is looking at
+var looking_at_interactable = false
 
 # Movement parameters
 @export var move_speed := 7.0
@@ -31,25 +32,53 @@ var comp_status = null
 @export var head_bob_intensity := 0.02  # Reduced intensity for smaller head bob
 @export var head_bob_speed := 10.0
 
-# Camera reference
-#@onready var head := $Camera3D
-@onready var raycast = $"../Player/RayCast3D"
-@onready var head := %PlayerCam
-
 signal made_sound(player_position: Vector3)
 
 var current_speed := move_speed
 var fall_velocity := 0.0
 var camera_x_rotation := 0.0
 var head_bob_offset := Vector3.ZERO
+var ui_paused := false  # Track if we're interacting with UI
 
 func _ready():
+	# Find UI components more reliably by searching the scene tree
+	var main = get_tree().get_current_scene()
+	
+	if main.has_node("UI/NoteUI/InteractionLabel"):
+		interaction_label = main.get_node("UI/NoteUI/InteractionLabel")
+	
+	if main.has_node("UI/CompUI/InteractionLabel"):
+		comp_interaction_label = main.get_node("UI/CompUI/InteractionLabel")
+	
+	if main.has_node("UI/NoteUI"):
+		note_ui = main.get_node("UI/NoteUI")
+	
+	if main.has_node("UI/CompUI"):
+		comp_ui = main.get_node("UI/CompUI")
+	
+	raycast = $RayCast3D
+	if !raycast:
+		# If not found, try to find it elsewhere
+		raycast = get_node_or_null("../Player/RayCast3D")
+	
+	head = %PlayerCam
+	if !head:
+		head = get_node_or_null("Camera3D")  # Fallback
+	
+	# Set initial mouse mode
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	# Initialize camera position
-	head.position.z = camera_forward_offset
-	head.position.y = camera_height  # Set initial camera height
+	
+	# Initialize camera position if head exists
+	if head:
+		head.position.z = camera_forward_offset
+		head.position.y = camera_height
 
 func _input(event):
+	# Skip input processing if we're paused or a dialog is open
+	if ui_paused:
+		return
+	
+	# Handle camera movement with mouse
 	if event is InputEventMouseMotion:
 		# Horizontal rotation (player body)
 		rotate_y(deg_to_rad(-event.relative.x * horizontal_sensitivity))
@@ -59,34 +88,46 @@ func _input(event):
 		camera_x_rotation = clamp(camera_x_rotation, vertical_clamp_min, vertical_clamp_max)
 		
 		# Apply vertical rotation to camera
-		head.rotation_degrees.x = camera_x_rotation
-		
-	# Open and close note UI
-	if event is InputEventKey and event.pressed and event.keycode == KEY_E:
-		print("Pressed E!")
-		if current_note:
-			print("current note exists")
-			if current_note.is_open:
-				#print("Closing note...")
-				current_note.close_note()
-				current_note = null
-			else:
-				#print("Opening note...")
-				current_note.open_note(current_note.get_node("RichTextLabel").text)
-		elif comp_status:
-			print("Comp detected")
-			if comp_status.is_open:
-				#print("Closing computer...")
-				comp_status.close_comp()
-				comp_status = null
-			else:
-				#print("Opening computer...")
-				comp_status.open_comp()
-	if comp_status and comp_status.is_open:
-		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			comp_ui.go_next()
+		if head:
+			head.rotation_degrees.x = camera_x_rotation
+	
+	# Interaction key
+	if event.is_action_pressed("interact"):
+		handle_interaction()
+
+func handle_interaction():
+	print("Handling interaction...")
+	
+	# Handle note interaction
+	if current_note:
+		print("Interacting with note")
+		if current_note.has_method("open_note") and not current_note.is_open:
+			var text = ""
+			if current_note.has_node("RichTextLabel"):
+				text = current_note.get_node("RichTextLabel").text
+			current_note.open_note(text)
+			ui_paused = true
+		elif current_note.has_method("close_note"):
+			current_note.close_note()
+			current_note = null
+			ui_paused = false
+	
+	# Handle computer interaction
+	elif current_comp:
+		print("Interacting with computer")
+		if current_comp.has_method("open_comp") and not current_comp.is_open:
+			current_comp.open_comp()
+			ui_paused = true
+		elif current_comp.has_method("close_comp"):
+			current_comp.close_comp()
+			current_comp = null
+			ui_paused = false
 
 func _physics_process(delta):
+	if ui_paused:
+		# Don't process movement when interacting with UI
+		return
+		
 	handle_movement(delta)
 	apply_head_bob(delta)
 	
@@ -120,6 +161,9 @@ func handle_movement(delta):
 	move_and_slide()
 
 func apply_head_bob(delta):
+	if !head:
+		return
+		
 	if is_on_floor() and velocity.length() > 1.0:
 		var bob_offset = Vector3(
 			sin(Time.get_ticks_msec() * 0.001 * head_bob_speed) * head_bob_intensity,
@@ -137,34 +181,59 @@ func apply_head_bob(delta):
 		camera_forward_offset  # Use exported displacement value
 	)
 
-func _process(delta):
+func _process(_delta):
+	if ui_paused:
+		return
+		
+	if !raycast or !head:
+		return
+		
 	# Ensure RayCast3D always follows the camera's direction
 	raycast.global_transform = head.global_transform
 	
+	# Reset interaction state
+	looking_at_interactable = false
+	
+	# Check for interactable objects
 	if raycast.is_colliding():
 		var hit_object = raycast.get_collider()
-		#print("Raycast is colliding with:", hit_object.name)
-		if hit_object is Area3D and hit_object.has_method("on_looked_at") and !hit_object.is_open:
-			hit_object.on_looked_at()
-			current_note = hit_object
-			looking_note = true
-			return
-		if hit_object is Area3D and hit_object.has_method("look_comp") and !hit_object.is_open:
-			hit_object.look_comp()
-			comp_status = hit_object
-			looking_comp = true
-			return
-			
-	comp_interaction_label.visible = false
-	interaction_label.visible = false
-	#looking_note = false
-	#looking_comp = false
-	#current_object = null
+		
+		# Handle note objects
+		if hit_object is Area3D and hit_object.has_method("on_looked_at"):
+			if hit_object.has_method("is_open") and not hit_object.is_open:
+				hit_object.on_looked_at()
+				current_note = hit_object
+				current_comp = null
+				looking_at_interactable = true
+			elif !hit_object.has_method("is_open"):
+				hit_object.on_looked_at()
+				current_note = hit_object
+				current_comp = null
+				looking_at_interactable = true
+		
+		# Handle computer objects
+		elif hit_object is Area3D and hit_object.has_method("look_comp"):
+			if hit_object.has_method("is_open") and not hit_object.is_open:
+				hit_object.look_comp()
+				current_comp = hit_object
+				current_note = null
+				looking_at_interactable = true
+			elif !hit_object.has_method("is_open"):
+				hit_object.look_comp()
+				current_comp = hit_object
+				current_note = null
+				looking_at_interactable = true
 	
-@export var sound_threshold: float = 2.0  # Minimum speed to make sound
-@export var running_sound_multiplier: float = 2.0  # Increase sound when running
+	# Hide interaction prompts if not looking at anything
+	if !looking_at_interactable:
+		if interaction_label:
+			interaction_label.visible = false
+		if comp_interaction_label:
+			comp_interaction_label.visible = false
+		current_note = null
+		current_comp = null
 
-# Existing is_making_sound() function - replace with this improved version
+# Function to check if player is making sound
 func is_making_sound() -> bool:
 	# Calculate horizontal velocity (ignoring vertical/falling movement)
 	var horizontal_speed = Vector2(velocity.x, velocity.z).length()
@@ -175,20 +244,18 @@ func is_making_sound() -> bool:
 	# Make more noise when running
 	var effective_speed = horizontal_speed
 	if is_running:
-		effective_speed *= running_sound_multiplier
+		effective_speed *= 2.0  # Running sound multiplier
 	
 	# Only emit sound if above threshold
+	var sound_threshold = 2.0  # Minimum speed to make sound
 	var making_sound = effective_speed > sound_threshold
 	
-	# Optionally emit the signal with current position (if you want to keep this behavior)
-	if making_sound:
-		emit_signal("made_sound", global_position)
-		
 	return making_sound
 
-# Add this function to allow manual sound emission (for testing or other triggers)
-func make_noise(multiplier: float = 1.0) -> void:
-	emit_signal("made_sound", global_position)
-	
-	# You could visualize this with a debug sphere or message
-	print("Player made deliberate noise!")
+# Method to handle UI state change
+func set_ui_paused(paused: bool) -> void:
+	ui_paused = paused
+	if paused:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
