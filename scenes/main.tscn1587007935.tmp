@@ -1,0 +1,253 @@
+[gd_scene load_steps=20 format=3 uid="uid://lye81ja0v1j0"]
+
+[ext_resource type="PackedScene" uid="uid://yyhj6pi75b3x" path="res://scenes/player.tscn" id="1_jyhfs"]
+[ext_resource type="Script" uid="uid://rjo4kww0gn7l" path="res://scripts/main.gd" id="1_tefeu"]
+[ext_resource type="PackedScene" path="res://scenes/mapexport.tscn" id="3_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://c8h7tnwl6tbjo" path="res://scenes/robot1.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://drlvp7yt8vgru" path="res://scenes/note.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" path="res://scenes/FriendlyBot.tscn" id="6_choun"]
+[ext_resource type="PackedScene" path="res://scenes/keycarddoor.tscn" id="6_jkv2x"]
+[ext_resource type="Script" uid="uid://cxttc67m7otwu" path="res://scripts/note_ui.gd" id="6_tefeu"]
+[ext_resource type="PackedScene" path="res://scenes/autoelevator.tscn" id="7_jbj1t"]
+[ext_resource type="Texture2D" uid="uid://buvmmxrqb6e1t" path="res://graphics/textures/Metal_02-128x128.png" id="7_o6xl0"]
+[ext_resource type="PackedScene" path="res://scenes/PauseMenu.tscn" id="8_tipki"]
+[ext_resource type="PackedScene" path="res://scenes/jumpscare_effect.tscn" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://bvpgp80l14488" path="res://scripts/DialogueUI.gd" id="11_eb6dy"]
+[ext_resource type="Script" path="res://scripts/InteractionPrompt.gd" id="12_trceg"]
+[ext_resource type="Script" path="res://scripts/ConfirmationDialog.gd" id="13_a8y0u"]
+[ext_resource type="Script" path="res://scripts/NotificationSystem.gd" id="14_jkv2x"]
+
+[sub_resource type="Environment" id="Environment_sugp2"]
+ambient_light_source = 2
+ambient_light_color = Color(0.899258, 0.899258, 0.899258, 1)
+tonemap_mode = 3
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.730747, 0.756489, 0.796938, 1)
+fog_density = 0.8
+fog_depth_curve = 0.554783
+fog_depth_begin = 2.0
+fog_depth_end = 9.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_jyhfs"]
+
+[sub_resource type="Compositor" id="Compositor_tbgi4"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_tefeu")
+
+[node name="Player" parent="." instance=ExtResource("1_jyhfs")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.311965, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player"]
+transform = Transform3D(0.866012, -0.357534, 0.349562, 0.00488212, 0.705102, 0.709089, -0.5, -0.612372, 0.612372, 2, 6.68804, 2)
+light_energy = 1.2
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.0
+directional_shadow_fade_start = 0.7
+directional_shadow_max_distance = 30.0
+directional_shadow_pancake_size = 10.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1924, 0)
+target_position = Vector3(0, 0, -3)
+collision_mask = 2
+collide_with_areas = true
+
+[node name="NPCs" type="Node3D" parent="."]
+
+[node name="Robot2" parent="NPCs" groups=["npcs"] instance=ExtResource("6_choun")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00764, -20)
+npc_id = "robot2"
+interaction_distance = 5.0
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Robot1" parent="Enemies" instance=ExtResource("3_sugp2")]
+transform = Transform3D(-0.999306, 0, 0.0372542, 0, 1, 0, -0.0372542, 0, -0.999306, 3.31703, 0.869073, -5.43187)
+
+[node name="GridMap" parent="." instance=ExtResource("3_eb6dy")]
+
+[node name="Door" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
+transform = Transform3D(-0.0354349, 0, -1.79965, 0, 1.8, 0, 1.79965, 0, -0.0354349, -0.0207615, 1.66297, -13.2548)
+auto_close_time = 10.0
+
+[node name="AutoElevator" parent="GridMap" instance=ExtResource("7_jbj1t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85674, 2.05698, -23.9487)
+script = null
+
+[node name="Door2" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
+transform = Transform3D(-1.99845, 0, 0.0787291, 0, 2, 0, -0.0787291, 0, -1.99845, -5.2431, 1.58052, -17.9609)
+auto_close_time = 10.0
+
+[node name="Door3" parent="GridMap" groups=["doors"] instance=ExtResource("6_jkv2x")]
+transform = Transform3D(-8.74228e-08, 0, 2, 0, 2, 0, -2, 0, -8.74228e-08, -12.0019, 1.58164, -22.4734)
+auto_close_time = 10.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sugp2")
+camera_attributes = SubResource("CameraAttributesPractical_jyhfs")
+compositor = SubResource("Compositor_tbgi4")
+
+[node name="note" parent="." groups=["notes"] instance=ExtResource("4_jyhfs")]
+transform = Transform3D(0.5, -4.37114e-08, 4.37114e-08, -4.37114e-08, -0.5, 0, 4.37114e-08, -3.82137e-15, -0.5, 3.1941, 0.947814, -3.67728)
+
+[node name="UI" type="Control" parent="."]
+layout_direction = 4
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NoteUI" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 556.0
+offset_top = 304.0
+offset_right = 556.0
+offset_bottom = 304.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+script = ExtResource("6_tefeu")
+
+[node name="InteractionLabel" type="Label" parent="UI/NoteUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.0
+offset_top = -30.0
+offset_right = 94.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Press E to open the note."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Background" type="TextureRect" parent="UI/NoteUI"]
+layout_mode = 0
+offset_left = -182.0
+offset_top = 37.0
+offset_bottom = 219.0
+scale = Vector2(1.98297, 1.51398)
+texture = ExtResource("7_o6xl0")
+expand_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/NoteUI"]
+layout_mode = 0
+offset_left = -92.0
+offset_top = 107.0
+offset_right = -13.0
+offset_bottom = 187.0
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("8_tipki")]
+layout_mode = 1
+
+[node name="JumpscareEffect" parent="UI" instance=ExtResource("9_85g3d")]
+
+[node name="DialogueUI" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_eb6dy")
+
+[node name="Panel" type="PanelContainer" parent="UI/DialogueUI"]
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DialogueUI/Panel"]
+layout_mode = 2
+
+[node name="NPCName" type="Label" parent="UI/DialogueUI/Panel/VBoxContainer"]
+layout_mode = 2
+text = "NPC Name"
+
+[node name="DialogueText" type="Label" parent="UI/DialogueUI/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Dialogue Text"
+
+[node name="OptionsContainer" type="VBoxContainer" parent="UI/DialogueUI/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="InteractionPrompt" type="Control" parent="UI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("12_trceg")
+
+[node name="PromptLabel" type="Label" parent="UI/InteractionPrompt"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 31.0
+
+[node name="ConfirmationDialog" type="Control" parent="UI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("13_a8y0u")
+
+[node name="Panel" type="PanelContainer" parent="UI/ConfirmationDialog"]
+layout_direction = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.2
+anchor_bottom = 0.2
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.568201, 0.161845)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ConfirmationDialog/Panel"]
+layout_mode = 2
+
+[node name="MessageLabel" type="Label" parent="UI/ConfirmationDialog/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Are you sure?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/ConfirmationDialog/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="YesButton" type="Button" parent="UI/ConfirmationDialog/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="NoButton" type="Button" parent="UI/ConfirmationDialog/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="NotificationSystem" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("14_jkv2x")
+
+[node name="NotificationLabel" type="Label" parent="UI/NotificationSystem"]
+layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 31.0
+
+[connection signal="made_sound" from="Player" to="Enemies/Robot1" method="made_sound"]

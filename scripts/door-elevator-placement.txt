@@ -1,0 +1,78 @@
+# DoorElevatorPlacement.gd
+# A utility script for the editor to help place doors and elevators
+
+@tool
+extends Node3D
+
+# Door placement parameters
+@export var create_door: bool = false:
+	set(value):
+		create_door = false  # Resets after use
+		if value and Engine.is_editor_hint():
+			_create_door()
+
+@export var create_keycard_door: bool = false:
+	set(value):
+		create_keycard_door = false  # Resets after use
+		if value and Engine.is_editor_hint():
+			_create_keycard_door()
+
+@export var create_door_frame: bool = false:
+	set(value):
+		create_door_frame = false  # Resets after use
+		if value and Engine.is_editor_hint():
+			_create_door_frame()
+
+# Elevator placement parameters
+@export var create_elevator: bool = false:
+	set(value):
+		create_elevator = false  # Resets after use
+		if value and Engine.is_editor_hint():
+			_create_elevator()
+
+@export var door_id_counter: int = 1
+@export var elevator_id_counter: int = 1
+
+func _create_door():
+	var door_scene = preload("res://scenes/Door.tscn")
+	var door_instance = door_scene.instantiate()
+	
+	# Set unique ID
+	door_instance.door_id = "door_" + str(door_id_counter)
+	door_id_counter += 1
+	
+	add_child(door_instance)
+	door_instance.owner = get_tree().edited_scene_root
+	
+	print("Door created with ID: ", door_instance.door_id)
+
+func _create_keycard_door():
+	var door_scene = preload("res://scenes/KeycardDoor.tscn")
+	var door_instance = door_scene.instantiate()
+	
+	# Set unique ID
+	door_instance.door_id = "keycard_door_" + str(door_id_counter)
+	door_id_counter += 1
+	
+	add_child(door_instance)
+	door_instance.owner = get_tree().edited_scene_root
+	
+	print("Keycard door created with ID: ", door_instance.door_id)
+
+func _create_door_frame():
+	var frame_scene = preload("res://scenes/DoorFrame.tscn")
+	var frame_instance = frame_scene.instantiate()
+	
+	add_child(frame_instance)
+	frame_instance.owner = get_tree().edited_scene_root
+	
+	print("Door frame created")
+
+func _create_elevator():
+	var elevator_scene = preload("res://scenes/Elevator.tscn")
+	var elevator_instance = elevator_scene.instantiate()
+	
+	add_child(elevator_instance)
+	elevator_instance.owner = get_tree().edited_scene_root
+	
+	print("Elevator created")

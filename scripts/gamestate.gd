@@ -1,8 +1,9 @@
-# GameState.gd
+# GameState.gd (AutoLoad version)
 extends Node
 
 signal game_started
 signal keycard_collected
+signal flashlight_collected
 signal factory_shutdown_attempted
 
 var is_game_active: bool = false
@@ -17,6 +18,15 @@ var alarm_active: bool = false
 
 func _ready():
 	pass
+
+func reset():
+	is_game_active = false
+	has_keycard = false
+	has_flashlight = false
+	collected_items = []
+	shutdown_attempted = false
+	emergency_lights_on = false
+	alarm_active = false
 
 func start_game():
 	if is_game_active:
@@ -72,7 +82,7 @@ func collect_keycard():
 
 func collect_flashlight():
 	has_flashlight = true
-	emit_signal("flashlight_collected")
+	emit_signal("flashlight_collected") 
 	show_notification("Flashlight acquired. You can now explore dark areas.", 3.0)
 
 func collect_item(item_id):
@@ -81,8 +91,9 @@ func collect_item(item_id):
 		show_notification("Item collected: " + item_id, 2.0)
 
 func show_notification(text, duration = 3.0):
-	if get_node_or_null("/root/Main/NotificationSystem"):
-		get_node("/root/Main/NotificationSystem").show_notification(text, duration)
+	var notification_system = get_node_or_null("/root/Main/UI/NotificationSystem")
+	if notification_system and notification_system.has_method("show_notification"):
+		notification_system.show_notification(text, duration)
 	else:
 		# Fallback if notification system not found
 		print("NOTIFICATION: " + text)

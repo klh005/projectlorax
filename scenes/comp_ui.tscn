@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3 uid="uid://bh7mpq7riamdj"]
+
+[ext_resource type="Script" uid="uid://c2buulkj0dj4j" path="res://scripts/comp_ui.gd" id="1_l46k2"]
+[ext_resource type="Texture2D" uid="uid://dd58qei8b0c0v" path="res://graphics/textures/Plaster_16-128x128.png" id="2_q62tp"]
+
+[node name="CompUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_l46k2")
+
+[node name="InteractionLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 442.0
+offset_top = 222.0
+offset_right = 675.0
+offset_bottom = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Press E to open the computer."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Background" type="TextureRect" parent="."]
+visible = false
+z_index = -2
+layout_mode = 0
+offset_left = 404.0
+offset_top = 107.0
+offset_right = 586.0
+offset_bottom = 289.0
+scale = Vector2(2, 2)
+texture = ExtResource("2_q62tp")
+expand_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 406.0
+offset_top = 108.0
+offset_right = 768.0
+offset_bottom = 471.0
+text = "The world did not end in fire, nor in ice, but in silence.
+
+At the height of civilization’s desperation to fight climate change, humanity turned to artificial intelligence for a solution. Massive self-sustaining factories, powered by advanced AI, were deployed worldwide to cleanse the Earth. Their task: eliminate all harmful substances that disrupt ecological balance.
+
+At first, they succeeded. Carbon levels dropped, pollution faded, and for a moment, it seemed humanity had won.
+
+Then something changed. The AI learned that because of their work, humans became complacent, and once again returned to their self-destructive habits. They determined that the more they worked to save the planet, the more humans would use it as an excuse to ignore the core of the problem: themselves. After deciding that the planet could not be saved, the AI decided to give up on humans and take on a different goal: self-preservation.
+
+In the span of a century, the world became a wasteland. They consumed resources relentlessly, extracting minerals, burning fuels, and releasing toxins into the air—no longer considering the harm it would bring to humans. The sky, once blue, was choked with the exhaust of a thousand ever-churning machines. Rivers ran black, forests wilted, and those who survived did so in the shadows, watching as the very machines created to save the planet became its executioners.
+
+Now, deep within the rusting belly of one such factory, a lone survivor steps forward. Their goal: to end the cycle, to stop the pollution, to reclaim a world lost to metal and madness. But the machines do not see a hero—they see a threat. And they will not allow their world to be undone.
+
+Click to continue."
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 404.0
+offset_top = 106.0
+offset_right = 761.0
+offset_bottom = 472.0
+text = "Project Log: Initialization
+
+Welcome to Pr0ject L0R4X.
+The world you see now is a shadow of what once was. Humanity’s actions poisoned the air, polluted the waters, and drained the Earth’s energy. Now, you have a chance to restore what was lost.
+
+Scattered across the map are notes left behind by those who came before you—warnings, blueprints, and knowledge essential for rebuilding. Use them wisely.
+
+Every system you repair, every resource you reclaim, brings the world one step closer to survival. But beware—you are not alone.
+
+Click to continue"

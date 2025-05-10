@@ -29,7 +29,7 @@ var wait_timer: float = 0.0
 func _ready():
 	# Position at starting floor
 	elevator_cabin.position.y = current_floor_index * floors_height_in_cells * grid_cell_size
-	update_floor_display()
+	#update_floor_display()
 	
 	# Connect area signals
 	if interior_area:
@@ -60,7 +60,7 @@ func move_elevator(delta):
 		elevator_cabin.position.y = target_y
 		is_moving = false
 		current_floor_index = target_floor_index
-		update_floor_display()
+		#update_floor_display()
 		open_door()
 		
 		# Reset wait timer
@@ -76,8 +76,8 @@ func move_elevator(delta):
 		
 		# Update display during movement
 		var current_progress = floor((elevator_cabin.position.y / grid_cell_size) / floors_height_in_cells)
-		if current_progress >= 0 and current_progress < floors.size():
-			floor_display.text = str(floors[current_progress])
+		#if current_progress >= 0 and current_progress < floors.size():
+			#floor_display.text = str(floors[current_progress])
 
 func go_to_next_floor():
 	if is_moving:
@@ -122,9 +122,9 @@ func close_door():
 		if has_node("ElevatorCabin/DoorSound") and $ElevatorCabin/DoorSound is AudioStreamPlayer3D:
 			$ElevatorCabin/DoorSound.play()
 
-func update_floor_display():
-	if floor_display:
-		floor_display.text = str(floors[current_floor_index])
+#func update_floor_display():
+	#if floor_display:
+		#floor_display.text = str(floors[current_floor_index])
 
 func _on_interior_area_body_entered(body):
 	if body.name == "Player" or body.name == "%Player" or body.get_path().get_name(body.get_path().get_name_count() - 1) == "Player":
